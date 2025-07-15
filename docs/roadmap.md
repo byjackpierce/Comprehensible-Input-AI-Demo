@@ -10,16 +10,16 @@
 - [x] Push initial code
 
 ### 1.2 Python Environment Setup
-- [ ] Create virtual environment: `python -m venv venv`
-- [ ] Activate virtual environment
-- [ ] Create `requirements.txt` with initial dependencies:
-  - Flask
-  - openai
-  - python-dotenv
-- [ ] Install dependencies: `pip install -r requirements.txt`
+- [x] Create virtual environment: `python -m venv venv`
+- [x] Activate virtual environment
+- [x] Create `requirements.txt` with initial dependencies:
+  - Flask==3.0.0
+  - openai==1.3.0
+  - python-dotenv==1.0.0
+- [x] Install dependencies: `pip install -r requirements.txt`
 
 ### 1.3 Project Structure
-- [ ] Create basic folder structure:
+- [x] Create basic folder structure:
   ```
   CI-AI-Demo/
   ├── app/
@@ -38,25 +38,24 @@
   ```
 
 ## Phase 2: Basic Flask Application
-
 ### 2.1 Flask App Foundation
-- [ ] Create basic Flask application in `app/__init__.py`
-- [ ] Set up configuration in `config.py`
-- [ ] Create main route in `app/routes.py`
-- [ ] Create basic HTML template
-- [ ] Test local development server
+- [x] Create basic Flask application in `app/__init__.py`
+- [x] Set up configuration in `config.py`
+- [x] Create main route in `app/routes.py`
+- [x] Create basic HTML template
+- [x] Test local development server
 
 ### 2.2 Environment Configuration
 - [ ] Set up `.env` file for environment variables
 - [ ] Configure OpenAI API key storage
-- [ ] Add `.env` to `.gitignore`
+- [x] Add `.env` to `.gitignore`
 - [ ] Create example `.env.example` file
 
 ### 2.3 Basic Frontend Structure
-- [ ] Create main HTML template with modern, minimal design
-- [ ] Add basic CSS styling (Substack-like aesthetic)
-- [ ] Create JavaScript file for interactivity
-- [ ] Test basic page rendering
+- [x] Create main HTML template with modern, minimal design
+- [x] Add basic CSS styling (Substack-like aesthetic)
+- [x] Create JavaScript file for interactivity
+- [x] Test basic page rendering
 
 ## Phase 3: OpenAI API Integration
 
