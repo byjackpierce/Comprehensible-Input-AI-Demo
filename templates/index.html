@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Comprehensible Input AI Demo</h1>
+            <p>Learn languages through AI-powered context clues</p>
+        </header>
+        
+        <main>
+            <section class="intro">
+                <h2>How it works:</h2>
+                <ol>
+                    <li>Select a language (German, Spanish, or English)</li>
+                    <li>Choose from AI-generated unfamiliar words</li>
+                    <li>Guess meanings through context clues</li>
+                    <li>Get AI feedback until you reach 9.5/10 accuracy</li>
+                </ol>
+            </section>
+            
+            <section class="start-game">
+                <h2>Ready to start?</h2>
+                <p>This feature is coming soon!</p>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 Comprehensible Input AI Demo</p>
+        </footer>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html> 
