@@ -1,27 +1,21 @@
-from flask import Blueprint, render_template
-
+from flask import Blueprint, render_template, jsonify
 from app.ai_service import AIService
 
 # Create a Blueprint for our main routes
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
-def index():
-    """Home page route"""
-    return render_template('index.html', title='Comprehensible Input AI Demo')
-
-@main_bp.route('/about')
-def about():
-    """About page route"""
-    return render_template('about.html', title='About')
+def game():
+    """Main game interface - everything happens here"""
+    return render_template('game.html')
 
 
-@main_bp.route('/test-ai')
-def test_ai():
-    """Test OpenAI API connection"""
+@main_bp.route('/api/generate-words/<language>')
+def api_generate_words(language):
+    """API endpoint for generating words"""
     try:
         ai_service = AIService()
-        result = ai_service.test_connection()
-        return f"AI Test Result {result}"
+        words = ai_service.generate_words(language, count=4)
+        return jsonify({'words': words})
     except Exception as e:
-        return f"Error: {str(e)}"
+        return jsonify({'error': str(e)})

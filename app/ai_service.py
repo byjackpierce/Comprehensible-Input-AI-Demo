@@ -16,19 +16,24 @@ class AIService:
         # Create OpenAI client
         self.client = OpenAI(api_key=api_key)
     
-    def test_connection(self):
-        """Test if we can connect to openAI API"""
+    
+    def generate_words(self, language, count=4):
+        prompt = f"generate {str(count)} nouns in {language} and return only those 4 nouns, one per line"
+
         try:
-            # Simple test - ask for a short response
             response = self.client.chat.completions.create(
                 model="gpt-4o",
-                messages=[
-                    {"role": "user", "content": "show me 4 german nouns of differing levels of complexity"}
-                ],
-                max_tokens=100
+                messages = [
+                    {"role": "user", "content": prompt}
+                ]
             )
 
-            return response.choices[0].message.content
+            # Get the response and split it into individual words
+            words = response.choices[0].message.content.strip().split('\n')
+            # Clean up empty lines
+            words = [word.strip() for word in words if word.strip()]
+
+            return words[:count] # Makes sure only requested number is returned
 
         except Exception as e:
-            return f"Error: {str(e)}"
+            return []
