@@ -1,5 +1,12 @@
 import os
+from tempfile import tempdir
 from openai import OpenAI
+from .prompts import (
+    SCORING_SYSTEM_PROMPT, 
+    SCORING_USER_PROMPT_TEMPLATE,
+    WORD_GENERATION_PROMPT,
+    SENTENCE_GENERATION_PROMPT
+)
 
 class AIService:
     """Service class for OpenAI API interactions"""
@@ -17,8 +24,8 @@ class AIService:
         self.client = OpenAI(api_key=api_key)
     
 
-    def generate_words(self, language, count=4):
-        prompt = f"generate {str(count)} nouns in {language} and return only those 4 nouns, one per line"
+    def generate_words(self, language, count=4, temperature=0.8):
+        prompt = WORD_GENERATION_PROMPT.format(count=count, language=language)
 
         try:
             response = self.client.chat.completions.create(
@@ -26,7 +33,8 @@ class AIService:
                 messages = [
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=100
+                max_tokens=100,
+                temperature=temperature
             )
 
             # Get the response and split it into individual words
@@ -50,16 +58,7 @@ class AIService:
         Returns:
             str: An English sentence with the foreign word in context
         """
-        prompt = f"""
-        Generate an english sentence that uses the {language} word '{word}' in context.
-
-        Requirements:
-        - Use '{word}' naturally in an English sentence
-        - Provide clear context clues about what '{word}' means
-        - Make it appropriate for language learning
-        - Return only the sentence, nothing else
-        
-        Example format: 'She opened the Kofferraum and loaded her groceries.'"""
+        prompt = SENTENCE_GENERATION_PROMPT.format(language=language, word=word)
         
         try:
             response = self.client.chat.completions.create(
@@ -79,59 +78,34 @@ class AIService:
         
     def return_score(self, word, language, guess):
         """
-        scoring system
+        Score the user's guess for a foreign word.
+        
+        Args:
+            word (str): The target foreign word
+            language (str): The language of the word
+            guess (str): The user's guess
+        
+        Returns:
+            str: AI response with score and feedback
         """
-        prompt = f"""
-        Score this guess for a {language} word on a 0-10 scale.
-
-        Target word: '{word}'
-        User's guess: '{guess}'
-
-        You are acting as a language learning assistant that helps users infer the meanings of unknown words through context.
-
-        A user is participating in a demo where they are shown a sentence that includes a foreign or rare word, and they try to guess its meaning based on the context.
-
-        Your job is to:
-        1. Evaluate how close the users guess is to the actual meaning of the word **as used in this sentence**.
-        2. Score their guess from 0 to 10, where:
-        - 10 means their guess is **fully correct**
-        - 9-9.9 means **very close**, with only slight imprecision or missing nuance
-        - 6-8.9 means **partially correct** — broadly in the right category, but with notable inaccuracy or ambiguity
-        - 3-5.9 means **weakly related**, only superficially correct or contextually off
-        - 0-2.9 means **wrong**, unrelated or clearly misunderstood
-        3. Give a **short, helpful comment** to explain why the guess was accurate, partially accurate, or off
-
-        ### Input format:
-
-        - Word: [foreign or rare word]
-        - Sentence: [the full English sentence with the target word in it]
-        - User Guess: [the user's one-line guess of what the word means]
-
-        ### Output format:
-
-        Score: X/10  
-        Comment: [your explanation]
-
-        ### Example:
-
-        Word: "Schlüssel"  
-        Sentence: "He pulled the Schlüssel out of his pocket and unlocked the front door."  
-        User Guess: "wallet"  
-
-        Score: 6/10  
-        Comment: You're in the right category (small object kept in a pocket), but its used to unlock things — think door access.
-        """
+        user_prompt = SCORING_USER_PROMPT_TEMPLATE.format(
+            language=language,
+            word=word,
+            guess=guess
+        )
         
         try:
             response = self.client.chat.completions.create(
-                model = 'gpt-4o',
-                messages = [
-                    {"role": "user", "content": prompt}
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": SCORING_SYSTEM_PROMPT},
+                    {"role": "user", "content": user_prompt}
                 ],
-                max_tokens = 100
+                max_tokens=150,
+                temperature=0.7
             )
         
             return response.choices[0].message.content
 
-        except:
-            return "error in scoring"
+        except Exception as e:
+            return f"Error in scoring: {str(e)}"
