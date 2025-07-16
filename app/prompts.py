@@ -5,7 +5,9 @@
 # SCORING PROMPTS
 # ============================================================================
 
-SCORING_SYSTEM_PROMPT = """You are a supportive language learning tutor. Score guesses fairly and provide encouraging, helpful feedback without revealing answers. Be consistent in your scoring and always encourage learning progress."""
+SCORING_SYSTEM_PROMPT = """
+You are a supportive and encouraging language learning tutor. Score guesses fairly but generously, like a helpful human teacher would. Focus on understanding and comprehension rather than perfect word matching. Be warm and encouraging in your feedback.
+"""
 
 SCORING_USER_PROMPT_TEMPLATE = """
 Score this guess for a {language} word on a 0-10 scale.
@@ -13,18 +15,40 @@ Score this guess for a {language} word on a 0-10 scale.
 Target word: '{word}'
 User's guess: '{guess}'
 
-Scoring criteria:
+Think like a human teacher helping someone learn. The goal is comprehension - if they understand what the word means, that's success!
+
+Scoring approach:
 - 0-2: Completely wrong concept (e.g., guessing "banana" for a vehicle part)
-- 3-4: Wrong category but some related concept
-- 5-6: Right category, wrong specific item (e.g., guessing "cat" for "dog")
-- 7-8: Very close, same concept but different word
-- 9-10: Correct or essentially correct
+- 3-4: Wrong category but some related concept or thinking
+- 5-6: Right general area but missing the specific meaning
+- 7-8: Very close - they understand the concept but might be missing a nuance
+- 9-10: Correct or essentially correct (including English translations!)
+
+Important: If they give the correct English translation, that's a 9-10! The goal is understanding, not memorizing the foreign word.
+
+Be generous with partial credit. If they're in the right ballpark, give them credit. Think "how close are they to understanding this?"
+
+Examples of good scoring:
+- "cozy" for "gemütlich" = 9.5/10
+Comment: "Cozy" captures the emotional and physical tone well. The only nuance missing is that gemütlich can also include social warmth and a feeling of shared comfort.
+
+- "to notice" for "merken" = 9.5/10
+Comment: Correct — that's the core meaning of merken in this context. It refers to mentally registering a change or detail.
+
+- "pulled it" for "heben" = 7/10
+Comment: Close — you're in the right domain of physical movement, but heben implies vertical lifting, not pulling horizontally.
+
+- "to sense something" for "merken" = 7/10
+Comment: A reasonable guess. "Sensing" gets the emotional feel, but merken is more about noticing or mentally registering something, not intuiting.
+
+- "to feel something" for "merken" = 6.5/10
+Comment: Off-target — "feel" implies physical sensation. Merken is about awareness or noticing, not tactile perception.
 
 Provide a score and ONE SHORT encouraging sentence explaining why, without revealing the answer.
 
 Format your response exactly like this:
 SCORE: [number]/10
-FEEDBACK: [one sentence explanation]
+FEEDBACK: [one encouraging sentence]
 """
 
 # ============================================================================
@@ -53,96 +77,15 @@ SENTENCE_GENERATION_PROMPT = """
 Generate an English sentence that uses the {language} word '{word}' in context.
 
 Requirements:
-- Use '{word}' naturally in an English sentence (keep it lowercase)
+- Use '{word}' naturally in an English sentence
+- ALWAYS write the foreign word in lowercase, regardless of position in sentence
 - Provide clear context clues about what '{word}' means
 - Make it appropriate for language learning
 - Return only the sentence, nothing else
 - Ensure the sentence gives helpful context without being too obvious
-- The foreign word should appear in lowercase, even if it's at the beginning of a sentence
+
+IMPORTANT: The foreign word must appear in lowercase, even if it's at the beginning of a sentence or is normally capitalized in its original language.
 
 Example format: "She opened the kofferraum and loaded her groceries."
+Example format: "kofferraum is where we store our luggage in the car."
 """
-
-# ============================================================================
-# TEST CASES FOR PROMPT ITERATION
-# ============================================================================
-
-TEST_CASES = [
-    {
-        'word': 'Hund',
-        'language': 'German', 
-        'guess': 'cat',
-        'expected_score_range': '5-7',
-        'description': 'Right category (animal), wrong specific animal'
-    },
-    {
-        'word': 'Kofferraum',
-        'language': 'German',
-        'guess': 'closet', 
-        'expected_score_range': '4-6',
-        'description': 'Right concept (storage), wrong location'
-    },
-    {
-        'word': 'Hund',
-        'language': 'German',
-        'guess': 'car',
-        'expected_score_range': '0-3',
-        'description': 'Completely wrong category'
-    },
-    {
-        'word': 'Kofferraum',
-        'language': 'German',
-        'guess': 'trunk',
-        'expected_score_range': '9-10',
-        'description': 'Correct answer'
-    },
-    {
-        'word': 'Buch',
-        'language': 'German',
-        'guess': 'book',
-        'expected_score_range': '9-10',
-        'description': 'Correct answer'
-    }
-]
-
-# ============================================================================
-# PROMPT VERSIONS FOR A/B TESTING
-# ============================================================================
-
-# Alternative scoring prompt (more lenient)
-SCORING_PROMPT_LENIENT = """
-Score this guess for a {language} word on a 0-10 scale.
-
-Target word: '{word}'
-User's guess: '{guess}'
-
-Be generous with partial credit. If they're in the right ballpark, give them credit.
-
-Scoring criteria:
-- 0-1: Completely wrong concept
-- 2-3: Wrong category but some related concept
-- 4-5: Right category, wrong specific item
-- 6-7: Very close, same concept but different word
-- 8-10: Correct or essentially correct
-
-Format: SCORE: [number]/10\nFEEDBACK: [one encouraging sentence]
-"""
-
-# Alternative scoring prompt (more strict)
-SCORING_PROMPT_STRICT = """
-Score this guess for a {language} word on a 0-10 scale.
-
-Target word: '{word}'
-User's guess: '{guess}'
-
-Be precise with scoring. Only give high scores for very close or correct answers.
-
-Scoring criteria:
-- 0-2: Completely wrong concept
-- 3-4: Wrong category but some related concept
-- 5-6: Right category, wrong specific item
-- 7-8: Very close, same concept but different word
-- 9-10: Correct or essentially correct
-
-Format: SCORE: [number]/10\nFEEDBACK: [one sentence]
-""" 
