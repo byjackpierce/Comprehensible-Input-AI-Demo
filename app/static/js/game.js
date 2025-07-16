@@ -61,16 +61,40 @@ function selectWord(word) {
     });
     event.target.closest('.word-card').classList.add('selected');
     
-    // Show game step after a short delay
+    // Show game step and load sentence
     setTimeout(() => {
         document.getElementById('word-step').style.display = 'none';
         document.getElementById('game-step').style.display = 'block';
         document.getElementById('target-word').textContent = word;
-        document.getElementById('sentence-display').innerHTML = `
-            <p><strong>Loading sentence...</strong></p>
-            <p>This feature is coming soon!</p>
-        `;
+        
+        // Load sentence from API
+        loadSentence(word, currentLanguage);
     }, 500);
+}
+
+// Load sentence from the API
+async function loadSentence(word, language) {
+    const sentenceDisplay = document.getElementById('sentence-display');
+    sentenceDisplay.innerHTML = '<p><strong>Generating sentence...</strong></p>';
+    
+    try {
+        const response = await fetch(`/api/generate-sentence/${language}/${word}`);
+        const data = await response.json();
+        
+        if (data.error) {
+            sentenceDisplay.innerHTML = `<p class="error">Error: ${data.error}</p>`;
+            return;
+        }
+        
+        sentenceDisplay.innerHTML = `
+            <div class="sentence-content">
+                <p class="sentence-text">${data.sentence}</p>
+                <p class="instruction">What do you think this word means?</p>
+            </div>
+        `;
+    } catch (error) {
+        sentenceDisplay.innerHTML = `<p class="error">Error loading sentence: ${error}</p>`;
+    }
 }
 
 // Navigation functions

@@ -4,7 +4,7 @@ An interactive web application that demonstrates the principles of comprehensibl
 
 ## About Me & Project Goals
 
-I'm learning software development and LLM integration through this project. With basic Python skills (mainly Jupyter notebooks and data work), I'm using this project to explore:
+I'm learning software development (back end) and LLM integration through this project. I already have basic Python skills (mainly Jupyter notebooks and data work), I'm using this project to explore:
 - LLM development and API integration
 - Web application development with Flask
 - Modern web development practices

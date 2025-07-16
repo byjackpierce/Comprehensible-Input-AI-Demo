@@ -19,3 +19,13 @@ def api_generate_words(language):
         return jsonify({'words': words})
     except Exception as e:
         return jsonify({'error': str(e)})
+
+@main_bp.route('/api/generate-sentence/<language>/<word>')
+def api_generate_sentence(word, language):
+    """API endpoint for generating sentences with target words"""
+    try:
+        ai_service = AIService()
+        sentence = ai_service.generate_sentence_with_word(word, language)
+        return jsonify({'sentence': sentence})
+    except Exception as e:
+        return jsonify({'error': str(e)})

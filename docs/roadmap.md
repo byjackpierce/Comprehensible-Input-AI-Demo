@@ -38,6 +38,7 @@
   ```
 
 ## Phase 2: Basic Flask Application
+
 ### 2.1 Flask App Foundation
 - [x] Create basic Flask application in `app/__init__.py`
 - [x] Set up configuration in `config.py`
@@ -46,8 +47,8 @@
 - [x] Test local development server
 
 ### 2.2 Environment Configuration
-- [ ] Set up `.env` file for environment variables
-- [ ] Configure OpenAI API key storage
+- [x] Set up `.env` file for environment variables
+- [x] Configure OpenAI API key storage
 - [x] Add `.env` to `.gitignore`
 - [ ] Create example `.env.example` file
 
@@ -60,16 +61,16 @@
 ## Phase 3: OpenAI API Integration
 
 ### 3.1 API Service Setup
-- [ ] Create `app/ai_service.py` for OpenAI interactions
-- [ ] Implement API key loading from environment
-- [ ] Create basic OpenAI client setup
-- [ ] Test API connectivity
+- [x] Create `app/ai_service.py` for OpenAI interactions
+- [x] Implement API key loading from environment
+- [x] Create basic OpenAI client setup
+- [x] Test API connectivity
 
 ### 3.2 Word Generation
-- [ ] Implement function to generate 4 random nouns in target language
-- [ ] Create prompt engineering for word generation
-- [ ] Handle API responses and error cases
-- [ ] Test word generation for all three languages
+- [x] Implement function to generate 4 random nouns in target language
+- [x] Create prompt engineering for word generation
+- [x] Handle API responses and error cases
+- [x] Test word generation for all three languages
 
 ### 3.3 Sentence Generation
 - [ ] Implement function to generate sentences with target word
@@ -80,10 +81,10 @@
 ## Phase 4: Core Game Logic
 
 ### 4.1 User Interaction Flow
-- [ ] Create language selection interface
-- [ ] Implement word selection from generated list
-- [ ] Add "refresh" functionality for new words
-- [ ] Handle user word choices
+- [x] Create language selection interface
+- [x] Implement word selection from generated list
+- [x] Add "refresh" functionality for new words
+- [x] Handle user word choices
 
 ### 4.2 Guessing System
 - [ ] Create user input interface for guesses
@@ -100,21 +101,21 @@
 ## Phase 5: Frontend Development
 
 ### 5.1 Interactive UI Components
-- [ ] Design language selection dropdown
-- [ ] Create word selection interface
-- [ ] Build sentence display component
-- [ ] Implement guess input form
+- [x] Design language selection dropdown
+- [x] Create word selection interface
+- [x] Build sentence display component
+- [x] Implement guess input form
 
 ### 5.2 User Experience
-- [ ] Add loading states for AI responses
-- [ ] Implement smooth transitions between game states
-- [ ] Create responsive design for mobile/desktop
+- [x] Add loading states for AI responses
+- [x] Implement smooth transitions between game states
+- [x] Create responsive design for mobile/desktop
 - [ ] Add visual feedback for correct/incorrect guesses
 
 ### 5.3 Modern Styling
-- [ ] Implement Substack-inspired minimal design
-- [ ] Add typography and spacing
-- [ ] Create consistent color scheme
+- [x] Implement Substack-inspired minimal design
+- [x] Add typography and spacing
+- [x] Create consistent color scheme
 - [ ] Ensure accessibility standards
 
 ## Phase 6: Advanced Features

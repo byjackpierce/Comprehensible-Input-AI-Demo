@@ -16,7 +16,7 @@ class AIService:
         # Create OpenAI client
         self.client = OpenAI(api_key=api_key)
     
-    
+
     def generate_words(self, language, count=4):
         prompt = f"generate {str(count)} nouns in {language} and return only those 4 nouns, one per line"
 
@@ -25,11 +25,12 @@ class AIService:
                 model="gpt-4o",
                 messages = [
                     {"role": "user", "content": prompt}
-                ]
+                ],
+                max_tokens=100
             )
 
             # Get the response and split it into individual words
-            words = response.choices[0].message.content.strip().split('\n')
+            words = (response.choices[0].message.content or "").strip().split('\n')
             # Clean up empty lines
             words = [word.strip() for word in words if word.strip()]
 
@@ -37,3 +38,42 @@ class AIService:
 
         except Exception as e:
             return []
+
+    def generate_sentence_with_word(self, word, language):
+        """
+        Generate an English sentence containing the target foreign word.
+        
+        Args:
+            word (str): The foreign word to include in the sentence
+            language (str): The language of the word (e.g., 'German', 'Spanish')
+        
+        Returns:
+            str: An English sentence with the foreign word in context
+        """
+        prompt = f"""
+        Generate an english sentence that uses the {language} word '{word}' in context.
+
+        Requirements:
+        - Use '{word}' naturally in an English sentence
+        - Provide clear context clues about what '{word}' means
+        - Make it appropriate for language learning
+        - Return only the sentence, nothing else
+        
+        Example format: 'She opened the Kofferraum and loaded her groceries.'"""
+        
+        try:
+            response = self.client.chat.completions.create(
+                model = 'gpt-4o',
+                messages = [
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens = 100
+            )
+        
+            return response.choices[0].message.content
+
+        except:
+            return "error in sentence generation"
+
+
+        
