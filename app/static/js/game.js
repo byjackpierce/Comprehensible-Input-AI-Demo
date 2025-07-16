@@ -118,22 +118,42 @@ function refreshWords() {
     }
 }
 
-// Step 3: Guessing (placeholder for now)
-function submitGuess() {
+// Step 3: Guessing - Updated to call the scoring API
+async function submitGuess() {
     const guess = document.getElementById('guess-input').value;
     if (!guess.trim()) {
         alert('Please enter a guess!');
         return;
     }
     
-    // For now, just show a placeholder message
+    // Show loading state
     const feedback = document.getElementById('feedback');
-    feedback.innerHTML = `
-        <p>You guessed: "${guess}"</p>
-        <p>This feature is coming soon!</p>
-    `;
+    feedback.innerHTML = '<p><strong>Scoring your guess...</strong></p>';
     feedback.style.display = 'block';
     feedback.className = 'feedback-box';
+    
+    try {
+        // Call the scoring API
+        const response = await fetch(`/api/score-guess/${selectedWord}/${currentLanguage}/${guess}`);
+        const data = await response.json();
+        
+        if (data.error) {
+            feedback.innerHTML = `<p class="error">Error: ${data.error}</p>`;
+            return;
+        }
+        
+        // Display the AI's full response
+        feedback.innerHTML = `
+            <div class="score-content">
+                <p><strong>Your guess:</strong> "${guess}"</p>
+                <p><strong>AI Response:</strong></p>
+                <div class="ai-response">${data.score}</div>
+            </div>
+        `;
+        
+    } catch (error) {
+        feedback.innerHTML = `<p class="error">Error scoring guess: ${error}</p>`;
+    }
     
     // Clear the input
     document.getElementById('guess-input').value = '';
