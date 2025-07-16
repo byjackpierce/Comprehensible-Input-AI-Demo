@@ -8,15 +8,10 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Comprehensible Input AI Demo</h1>
-            <p>Learn languages through AI-powered context clues</p>
-        </header>
-        
         <main id="game-container">
             <!-- Step 1: Language Selection -->
             <div id="language-step" class="game-step">
-                <h2>Step 1: Select a Language</h2>
+                <h2>Select a Language</h2>
                 <div class="language-grid">
                     <button onclick="selectLanguage('German')" class="language-btn">German</button>
                     <button onclick="selectLanguage('Spanish')" class="language-btn">Spanish</button>
@@ -26,16 +21,18 @@
 
             <!-- Step 2: Word Selection -->
             <div id="word-step" class="game-step" style="display: none;">
-                <h2>Step 2: Choose a Word</h2>
+                <h2>Choose a Word</h2>
                 <p>Language: <span id="selected-language"></span></p>
                 <div id="word-grid" class="word-grid"></div>
-                <button onclick="backToLanguages()" class="btn">← Back to Languages</button>
-                <button onclick="refreshWords()" class="btn">🔄 New Words</button>
+                <div class="button-row">
+                    <button onclick="backToLanguages()" class="btn">← Back to Languages</button>
+                    <button onclick="refreshWords()" class="btn">🔄 New Words</button>
+                </div>
             </div>
 
             <!-- Step 3: Guessing Game -->
             <div id="game-step" class="game-step" style="display: none;">
-                <h2>Step 3: Guess the Meaning</h2>
+                <h2>Guess the Meaning</h2>
                 <p>Target word: <strong id="target-word"></strong></p>
                 <div id="sentence-display" class="sentence-box"></div>
                 <div class="guess-section">
@@ -46,10 +43,6 @@
                 <button onclick="backToWords()" class="btn">← Back to Words</button>
             </div>
         </main>
-        
-        <footer>
-            <p>&copy; 2024 Comprehensible Input AI Demo</p>
-        </footer>
     </div>
     
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>

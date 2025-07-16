@@ -13,24 +13,9 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;  /* Increased from 800px */
     margin: 0 auto;
     padding: 20px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 40px;
-    padding: 40px 0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 2.5em;
 }
 
 h2 {
@@ -39,31 +24,7 @@ h2 {
     font-size: 1.5em;
 }
 
-.intro, .start-game {
-    background: white;
-    padding: 30px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-ol {
-    margin-left: 20px;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    color: #7f8c8d;
-}
-
-/* Add these styles to your existing CSS */
-
+/* Game step styles */
 .game-step {
     background: white;
     padding: 30px;
@@ -94,9 +55,10 @@ footer {
     background: #2980b9;
 }
 
+/* Updated word grid to fit 4 words better */
 .word-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);  /* Force 4 columns */
     gap: 15px;
     margin: 20px 0;
 }
@@ -109,6 +71,10 @@ footer {
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
+    min-height: 100px;  /* Ensure consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .word-card:hover {
@@ -119,6 +85,25 @@ footer {
 .word-card.selected {
     border-color: #27ae60;
     background: #d4edda;
+}
+
+.word-card h3 {
+    font-size: 1.3em;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.word-card p {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+/* Button row for navigation */
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .sentence-box {
@@ -202,4 +187,21 @@ footer {
 
 .btn:hover {
     background: #5a6268;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    .word-grid {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columns on mobile */
+    }
+    
+    .button-row {
+        flex-direction: column;
+        gap: 10px;
+    }
 } 
