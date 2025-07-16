@@ -53,13 +53,14 @@ SENTENCE_GENERATION_PROMPT = """
 Generate an English sentence that uses the {language} word '{word}' in context.
 
 Requirements:
-- Use '{word}' naturally in an English sentence
+- Use '{word}' naturally in an English sentence (keep it lowercase)
 - Provide clear context clues about what '{word}' means
 - Make it appropriate for language learning
 - Return only the sentence, nothing else
 - Ensure the sentence gives helpful context without being too obvious
+- The foreign word should appear in lowercase, even if it's at the beginning of a sentence
 
-Example format: "She opened the Kofferraum and loaded her groceries."
+Example format: "She opened the kofferraum and loaded her groceries."
 """
 
 # ============================================================================
