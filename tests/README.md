@@ -28,12 +28,29 @@ Tests sentence generation across multiple languages and word categories.
 - ❌ **Issues**: Inconsistent lowercase usage, some redundancy in scenarios
 - 🔧 **Prompt updated**: Enhanced lowercase enforcement in sentence generation prompt
 
+### `test_scoring.py`
+Tests AI scoring system for user guesses across different difficulty levels.
+
+**Language tested**: Spanish (for user comprehension)
+**Word categories**: Weather, Household, Transportation, Lighting, Clothing
+**Guess types**: Correct translations, close answers, right category/wrong item, wrong category, completely wrong
+**Tests per case**: 2 tests per guess to check consistency
+
+**Results**:
+- ✅ **Good**: English translations now get 10/10 (umbrella, refrigerator, bicycle, flashlight, glove)
+- ✅ **Good**: Abbreviations get proper credit (fridge 9.5/10, bike 9.5/10)
+- ✅ **Good**: More generous scoring in 5-9 range with encouraging feedback
+- ⚠️ **Issues**: Inconsistent scoring between tests (freezer: 9/10 vs 6/10)
+- ❌ **Issues**: Feedback sometimes gives too obvious hints
+- 🔧 **Prompt updated**: Enhanced with human teacher examples and comprehension focus
+
 ## Run Tests
 
 ```bash
 python tests/test_temperature.py
 python tests/test_sentence_temperature.py
 python tests/test_sentence_generation_diverse.py
+python tests/test_scoring.py
 ```
 
 ## Notes
@@ -54,3 +71,10 @@ python tests/test_sentence_generation_diverse.py
 - **Lighting tools**: Clear context with darkness/power outages
 - **Household items**: Needs more varied scenarios (cooking, meal prep)
 - **Clothing**: Inconsistent context (sports vs weather scenarios)
+
+### Scoring System Quality
+- **Correct translations**: Now properly scored 9-10/10
+- **Close answers**: Generous scoring 7-9/10 for related concepts
+- **Category matching**: Fair scoring 5-7/10 for right category, wrong item
+- **Consistency**: Needs improvement - same guesses getting different scores
+- **Feedback tone**: Warm and encouraging, but sometimes too helpful with hints
