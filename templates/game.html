@@ -3,44 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprehensible Input AI Demo</title>
+    <title>Comprehensible Input Demo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <div class="container">
-        <main id="game-container">
-            <!-- Step 1: Language Selection -->
-            <div id="language-step" class="game-step">
-                <h2>Select a Language</h2>
-                <div class="language-grid">
-                    <button onclick="selectLanguage('German')" class="language-btn">German</button>
-                    <button onclick="selectLanguage('Spanish')" class="language-btn">Spanish</button>
-                    <button onclick="selectLanguage('French')" class="language-btn">French</button>
+        <main class="educational-content">
+            <!-- Educational Introduction -->
+            <div class="intro-section">
+                <h1>Comprehensible Input Learning</h1>
+                <p>Experience how context helps you understand new words in a foreign language.</p>
+            </div>
+
+            <!-- Progressive Demo Section -->
+            <div class="demo-section">
+                <!-- Language Selection -->
+                <div class="demo-step" id="language-step">
+                    <div class="inline-header">
+                        <h2>Choose a Language:</h2>
+                        <div class="language-grid">
+                            <button onclick="selectLanguage('German')" class="language-btn" data-language="German">German</button>
+                            <button onclick="selectLanguage('Spanish')" class="language-btn" data-language="Spanish">Spanish</button>
+                            <button onclick="selectLanguage('French')" class="language-btn" data-language="French">French</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Word Selection (appears after language selection) -->
+                <div class="demo-step" id="word-step" style="display: none;">
+                    <div class="inline-header">
+                        <h2>Choose a Word:</h2>
+                        <div id="word-grid" class="word-grid"></div>
+                        <button onclick="refreshWords()" class="refresh-btn">🔄 New Words</button>
+                    </div>
+                </div>
+
+                <!-- Sentence Progression (appears after word selection) -->
+                <div class="demo-step" id="sentence-step" style="display: none;">
+                    <div id="sentence-progression" class="sentence-progression">
+                        <!-- Sentences will be added here dynamically -->
+                    </div>
+                    
+                    <!-- Guess Input -->
+                    <div class="guess-section" id="guess-section" style="display: none;">
+                        <div class="guess-input-container">
+                            <input type="text" id="guess-input" placeholder="What does this word mean?" class="guess-input">
+                            <button onclick="submitGuess()" class="submit-btn">Submit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Step 2: Word Selection -->
-            <div id="word-step" class="game-step" style="display: none;">
-                <h2>Choose a Word</h2>
-                <p>Language: <span id="selected-language"></span></p>
-                <div id="word-grid" class="word-grid"></div>
-                <div class="button-row">
-                    <button onclick="backToLanguages()" class="btn">← Back to Languages</button>
-                    <button onclick="refreshWords()" class="btn">🔄 New Words</button>
-                </div>
-            </div>
-
-            <!-- Step 3: Guessing Game -->
-            <div id="game-step" class="game-step" style="display: none;">
-                <h2>Guess the Meaning</h2>
-                <p>Target word: <strong id="target-word"></strong></p>
-                <div id="sentence-display" class="sentence-box"></div>
-                <div class="guess-section">
-                    <input type="text" id="guess-input" placeholder="Enter your guess..." class="guess-input">
-                    <button onclick="submitGuess()" class="btn">Submit Guess</button>
-                </div>
-                <div id="feedback" class="feedback-box"></div>
-                <button onclick="backToWords()" class="btn">← Back to Words</button>
+            <!-- Success/Completion Section -->
+            <div class="demo-step" id="completion-step" style="display: none;">
+                <div id="completion-content"></div>
+                <button onclick="startNewDemo()" class="next-demo-btn">Try Another Word</button>
             </div>
         </main>
     </div>

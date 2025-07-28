@@ -7,250 +7,314 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
+    line-height: 1.4;
     color: #333;
     background-color: #f8f9fa;
 }
 
 .container {
-    max-width: 1200px;  /* Increased from 800px */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-h2 {
-    color: #34495e;
-    margin-bottom: 15px;
-    font-size: 1.5em;
+/* Educational Content Layout */
+.educational-content {
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* Game step styles */
-.game-step {
+.intro-section {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 20px;
     background: white;
-    padding: 30px;
-    margin: 20px 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+.intro-section h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.intro-section p {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Demo Section */
+.demo-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.demo-step {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.demo-step:last-child {
+    border-bottom: none;
+}
+
+.demo-step h2 {
+    color: #34495e;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+/* Inline Header Layout */
+.inline-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.inline-header h2 {
+    margin: 0;
+    white-space: nowrap;
+    font-size: 1.2em;
+}
+
+/* Language Selection */
 .language-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin: 20px 0;
+    gap: 10px;
+    flex: 1;
 }
 
 .language-btn {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 20px;
-    border-radius: 8px;
-    font-size: 1.2em;
+    background: #ecf0f1;
+    color: #2c3e50;
+    border: 2px solid #bdc3c7;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1.1em;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
 }
 
 .language-btn:hover {
-    background: #2980b9;
+    border-color: #3498db;
+    background: #e3f2fd;
+    transform: translateY(-1px);
 }
 
-/* Updated word grid to fit 4 words better */
+.language-btn.selected {
+    border-color: #27ae60;
+    background: #e8f5e8;
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+}
+
+/* Word Selection */
 .word-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);  /* Force 4 columns */
-    gap: 15px;
-    margin: 20px 0;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    flex: 1;
 }
 
 .word-card {
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    padding: 20px;
-    border-radius: 8px;
+    background: #ecf0f1;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    padding: 12px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
-    min-height: 100px;  /* Ensure consistent height */
+    min-height: 60px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
 .word-card:hover {
     border-color: #3498db;
     background: #e3f2fd;
+    transform: translateY(-1px);
 }
 
 .word-card.selected {
     border-color: #27ae60;
-    background: #d4edda;
+    background: #e8f5e8;
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
 }
 
 .word-card h3 {
-    font-size: 1.3em;
-    margin-bottom: 8px;
-    color: #2c3e50;
-}
-
-.word-card p {
-    font-size: 0.9em;
-    color: #7f8c8d;
     margin: 0;
+    font-size: 1.1em;
+    color: #2c3e50;
+    font-weight: 500;
 }
 
-/* Button row for navigation */
-.button-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+.refresh-btn {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 10px;
 }
 
-.sentence-box {
-    background: white;
-    padding: 30px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.refresh-btn:hover {
+    background: #7f8c8d;
+}
+
+/* Sentence Progression */
+.sentence-progression {
+    margin: 15px 0;
+}
+
+.sentence-item {
+    background: #f8f9fa;
     border-left: 4px solid #3498db;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    animation: slideIn 0.5s ease-out;
 }
 
-.sentence-content {
-    text-align: center;
+.sentence-item.incorrect {
+    border-left-color: #e74c3c;
+    background: #fdf2f2;
+}
+
+.sentence-item.correct {
+    border-left-color: #27ae60;
+    background: #f0f9f0;
 }
 
 .sentence-text {
-    font-size: 1.3em;
-    line-height: 1.6;
+    font-size: 1em;
+    line-height: 1.4;
+    margin-bottom: 5px;
     color: #2c3e50;
-    margin-bottom: 15px;
-    font-weight: 500;
 }
 
-.instruction {
+.sentence-counter {
+    font-size: 0.8em;
     color: #7f8c8d;
-    font-style: italic;
     margin: 0;
 }
 
-.error {
-    color: #e74c3c;
-    text-align: center;
-    font-weight: 500;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Guess Section */
 .guess-section {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.guess-input-container {
     display: flex;
     gap: 10px;
-    margin: 20px 0;
-    justify-content: center;
     align-items: center;
 }
 
 .guess-input {
-    padding: 12px 16px;
+    flex: 1;
+    padding: 10px;
     border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    min-width: 250px;
-    transition: border-color 0.3s;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
 }
 
 .guess-input:focus {
-    outline: none;
     border-color: #3498db;
 }
 
-.feedback-box {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 6px;
-    margin: 20px 0;
-    border-left: 4px solid #f39c12;
-    display: none;
-}
-
-.feedback-box.show {
-    display: block;
-}
-
-.btn {
-    background: #6c757d;
+.submit-btn {
+    background: #27ae60;
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 4px;
     font-size: 1em;
-    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.btn:hover {
-    background: #5a6268;
+.submit-btn:hover {
+    background: #229954;
 }
 
-/* Add these new styles */
-
-.feedback-content {
-    padding: 15px;
-    border-radius: 8px;
-    margin: 10px 0;
+/* Completion Step */
+.completion-step {
+    text-align: center;
+    padding: 20px;
 }
 
-.feedback-content.correct {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
+.success-message h3,
+.learning-message h3 {
+    color: #27ae60;
+    margin-bottom: 10px;
 }
 
-.feedback-content.incorrect {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-}
-
-.sentence-counter {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 10px;
-    font-style: italic;
-}
-
-.next-button {
-    background-color: #007bff;
+.next-demo-btn {
+    background: #3498db;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 1em;
     cursor: pointer;
-    margin-top: 10px;
+    transition: all 0.3s;
+    margin-top: 15px;
 }
 
-.next-button:hover {
-    background-color: #0056b3;
+.next-demo-btn:hover {
+    background: #2980b9;
 }
 
-/* Update existing feedback-box for better styling */
-.feedback-box {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-
-/* Responsive design for smaller screens */
+/* Responsive Design */
 @media (max-width: 768px) {
     .container {
-        max-width: 100%;
         padding: 10px;
     }
     
-    .word-grid {
-        grid-template-columns: repeat(2, 1fr);  /* 2 columns on mobile */
+    .inline-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
     
-    .button-row {
+    .word-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .guess-input-container {
         flex-direction: column;
-        gap: 10px;
+    }
+    
+    .guess-input {
+        width: 100%;
     }
 } 
