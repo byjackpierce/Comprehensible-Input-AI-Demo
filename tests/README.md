@@ -31,6 +31,9 @@ Tests sentence generation across multiple languages and word categories.
 ### `test_scoring.py`
 Tests AI scoring system for user guesses across different difficulty levels.
 
+**Status**: **ARCHIVED** - Scoring system moved to archive/scoring-system branch
+**New approach**: Binary feedback system (correct/incorrect) for nouns MVP
+
 **Language tested**: Spanish (for user comprehension)
 **Word categories**: Weather, Household, Transportation, Lighting, Clothing
 **Guess types**: Correct translations, close answers, right category/wrong item, wrong category, completely wrong
@@ -43,6 +46,8 @@ Tests AI scoring system for user guesses across different difficulty levels.
 - ⚠️ **Issues**: Inconsistent scoring between tests (freezer: 9/10 vs 6/10)
 - ❌ **Issues**: Feedback sometimes gives too obvious hints
 - 🔧 **Prompt updated**: Enhanced with human teacher examples and comprehension focus
+
+**Note**: Scoring system archived due to pivot to binary feedback approach for nouns MVP
 
 ## Run Tests
 
@@ -73,8 +78,6 @@ python tests/test_scoring.py
 - **Clothing**: Inconsistent context (sports vs weather scenarios)
 
 ### Scoring System Quality
-- **Correct translations**: Now properly scored 9-10/10
-- **Close answers**: Generous scoring 7-9/10 for related concepts
-- **Category matching**: Fair scoring 5-7/10 for right category, wrong item
-- **Consistency**: Needs improvement - same guesses getting different scores
-- **Feedback tone**: Warm and encouraging, but sometimes too helpful with hints
+- **Status**: **ARCHIVED** - Moved to archive/scoring-system branch
+- **New approach**: Binary feedback (correct/incorrect) for cleaner user experience
+- **Focus**: Nouns with one-to-one mapping for MVP

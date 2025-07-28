@@ -94,9 +94,10 @@
 
 ### 4.2 Guessing System
 - [x] Create user input interface for guesses
-- [x] Implement AI scoring system (0-10 scale)
-- [x] Create feedback generation based on scores
-- [ ] Add logic to continue until 9.5/10 threshold
+- [x] ~~Implement AI scoring system (0-10 scale)~~ **ARCHIVED** - Scoring system moved to archive/scoring-system branch
+- [x] ~~Create feedback generation based on scores~~ **ARCHIVED** - Scoring system moved to archive/scoring-system branch
+- [ ] Implement binary feedback system (correct/incorrect)
+- [ ] Add logic to continue until correct guess or 5 sentences
 
 ### 4.3 Session Management
 - [ ] Implement session-based game state
@@ -133,10 +134,11 @@
 ## Phase 6: Advanced Features
 
 ### 6.1 AI Feedback Enhancement
-- [ ] Improve scoring accuracy
-- [ ] Create more nuanced feedback messages
+- [ ] ~~Improve scoring accuracy~~ **ARCHIVED** - Scoring system moved to archive/scoring-system branch
+- [ ] ~~Create more nuanced feedback messages~~ **ARCHIVED** - Scoring system moved to archive/scoring-system branch
+- [ ] Implement binary feedback with minimal hints
 - [ ] Add final summary generation
-- [ ] Implement progressive hint system
+- [ ] Implement progressive sentence system (up to 5 sentences)
 
 ### 6.2 Error Handling
 - [ ] Handle API rate limits
@@ -191,8 +193,8 @@
 
 ## Current Status Summary
 - **Completed**: 75% of core functionality
-- **In Progress**: Game flow completion and session management
-- **Next Priority**: Complete the guessing game loop with progressive sentences
+- **In Progress**: Binary feedback system implementation
+- **Next Priority**: Complete the guessing game loop with binary feedback
 - **Ready for**: User testing and deployment preparation
 
 ## Notes
