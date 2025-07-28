@@ -189,6 +189,55 @@ h2 {
     background: #5a6268;
 }
 
+/* Add these new styles */
+
+.feedback-content {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.feedback-content.correct {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.feedback-content.incorrect {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.sentence-counter {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.next-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.next-button:hover {
+    background-color: #0056b3;
+}
+
+/* Update existing feedback-box for better styling */
+.feedback-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .container {

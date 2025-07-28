@@ -2,53 +2,29 @@
 # This file contains all prompts used in the application for easy management and iteration
 
 # ============================================================================
-# SCORING PROMPTS
+# BINARY FEEDBACK PROMPTS
 # ============================================================================
 
-SCORING_SYSTEM_PROMPT = """
-You are a supportive and encouraging language learning tutor. Score guesses fairly but generously, like a helpful human teacher would. Focus on understanding and comprehension rather than perfect word matching. Be warm and encouraging in your feedback.
-"""
+BINARY_FEEDBACK_PROMPT = """
+Check if the user's guess is correct for the {language} word '{word}'.
 
-SCORING_USER_PROMPT_TEMPLATE = """
-Score this guess for a {language} word on a 0-10 scale.
-
-Target word: '{word}'
 User's guess: '{guess}'
 
-Think like a human teacher helping someone learn. The goal is comprehension - if they understand what the word means, that's success!
+Requirements:
+- Return ONLY "correct" or "incorrect"
+- "correct" if the guess means the same thing as the target word
+- "incorrect" if the guess is wrong or only partially right
+- Be generous with synonyms and common translations
+- For nouns, accept the English translation as correct
 
-Scoring approach:
-- 0-2: Completely wrong concept (e.g., guessing "banana" for a vehicle part)
-- 3-4: Wrong category but some related concept or thinking
-- 5-6: Right general area but missing the specific meaning
-- 7-8: Very close - they understand the concept but might be missing a nuance
-- 9-10: Correct or essentially correct (including English translations!)
+Examples:
+- "umbrella" for "paraguas" = correct
+- "fridge" for "refrigerador" = correct  
+- "bike" for "bicicleta" = correct
+- "rain protection" for "paraguas" = incorrect
+- "car" for "bicicleta" = incorrect
 
-Important: If they give the correct English translation, that's a 9-10! The goal is understanding, not memorizing the foreign word.
-
-Be generous with partial credit. If they're in the right ballpark, give them credit. Think "how close are they to understanding this?"
-
-Examples of good scoring:
-- "cozy" for "gemütlich" = 9.5/10
-Comment: "Cozy" captures the emotional and physical tone well. The only nuance missing is that gemütlich can also include social warmth and a feeling of shared comfort.
-
-- "to notice" for "merken" = 9.5/10
-Comment: Correct — that's the core meaning of merken in this context. It refers to mentally registering a change or detail.
-
-- "pulled it" for "heben" = 7/10
-Comment: Close — you're in the right domain of physical movement, but heben implies vertical lifting, not pulling horizontally.
-
-- "to sense something" for "merken" = 7/10
-Comment: A reasonable guess. "Sensing" gets the emotional feel, but merken is more about noticing or mentally registering something, not intuiting.
-
-- "to feel something" for "merken" = 6.5/10
-Comment: Off-target — "feel" implies physical sensation. Merken is about awareness or noticing, not tactile perception.
-
-Provide a score and ONE SHORT encouraging sentence explaining why, without revealing the answer.
-
-Format your response exactly like this:
-SCORE: [number]/10
-FEEDBACK: [one encouraging sentence]
+Return only: correct OR incorrect
 """
 
 # ============================================================================

@@ -30,12 +30,12 @@ def api_generate_sentence(language, word):
     except Exception as e:
         return jsonify({'error': str(e)})
 
-@main_bp.route('/api/score-guess/<word>/<language>/<guess>')
-def api_score_guess(word, language, guess):
-    """API endpoint scoring the user's guess"""
+@main_bp.route('/api/check-guess/<word>/<language>/<guess>')
+def api_check_guess(word, language, guess):
+    """API endpoint checking the user's guess"""
     try:
         ai_service = AIService()
-        score = ai_service.return_score(word, language, guess)
-        return jsonify({'score': score})
+        result = ai_service.return_binary_feedback(word, language, guess)
+        return jsonify({'correct': result == 'correct'})
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)}), 500 

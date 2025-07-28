@@ -2,6 +2,8 @@
 let currentLanguage = '';
 let currentWords = [];
 let selectedWord = '';
+let currentSentenceIndex = 0;
+let sentences = [];
 
 // Step 1: Language Selection
 function selectLanguage(language) {
@@ -54,6 +56,8 @@ function displayWords(words) {
 // Step 2: Word Selection
 function selectWord(word) {
     selectedWord = word;
+    currentSentenceIndex = 0;
+    sentences = [];
     
     // Highlight selected word
     document.querySelectorAll('.word-card').forEach(card => {
@@ -61,13 +65,13 @@ function selectWord(word) {
     });
     event.target.closest('.word-card').classList.add('selected');
     
-    // Show game step and load sentence
+    // Show game step and load first sentence
     setTimeout(() => {
         document.getElementById('word-step').style.display = 'none';
         document.getElementById('game-step').style.display = 'block';
         document.getElementById('target-word').textContent = word;
         
-        // Load sentence from API
+        // Load first sentence
         loadSentence(word, currentLanguage);
     }, 500);
 }
@@ -86,10 +90,15 @@ async function loadSentence(word, language) {
             return;
         }
         
+        // Store sentence and display it
+        sentences.push(data.sentence);
+        currentSentenceIndex = sentences.length - 1;
+        
         sentenceDisplay.innerHTML = `
             <div class="sentence-content">
                 <p class="sentence-text">${data.sentence}</p>
                 <p class="instruction">What do you think this word means?</p>
+                <p class="sentence-counter">Sentence ${currentSentenceIndex + 1} of 5</p>
             </div>
         `;
     } catch (error) {
@@ -104,12 +113,16 @@ function backToLanguages() {
     document.getElementById('language-step').style.display = 'block';
     currentLanguage = '';
     selectedWord = '';
+    currentSentenceIndex = 0;
+    sentences = [];
 }
 
 function backToWords() {
     document.getElementById('game-step').style.display = 'none';
     document.getElementById('word-step').style.display = 'block';
     selectedWord = '';
+    currentSentenceIndex = 0;
+    sentences = [];
 }
 
 function refreshWords() {
@@ -118,7 +131,7 @@ function refreshWords() {
     }
 }
 
-// Step 3: Guessing - Updated to call the scoring API
+// Step 3: Guessing - Updated to use binary feedback
 async function submitGuess() {
     const guess = document.getElementById('guess-input').value;
     if (!guess.trim()) {
@@ -128,13 +141,13 @@ async function submitGuess() {
     
     // Show loading state
     const feedback = document.getElementById('feedback');
-    feedback.innerHTML = '<p><strong>Scoring your guess...</strong></p>';
+    feedback.innerHTML = '<p><strong>Checking your guess...</strong></p>';
     feedback.style.display = 'block';
     feedback.className = 'feedback-box';
     
     try {
-        // Call the scoring API
-        const response = await fetch(`/api/score-guess/${selectedWord}/${currentLanguage}/${guess}`);
+        // Call the binary feedback API
+        const response = await fetch(`/api/check-guess/${selectedWord}/${currentLanguage}/${guess}`);
         const data = await response.json();
         
         if (data.error) {
@@ -142,19 +155,57 @@ async function submitGuess() {
             return;
         }
         
-        // Display the AI's full response
-        feedback.innerHTML = `
-            <div class="score-content">
-                <p><strong>Your guess:</strong> "${guess}"</p>
-                <p><strong>AI Response:</strong></p>
-                <div class="ai-response">${data.score}</div>
-            </div>
-        `;
+        if (data.correct) {
+            // Correct guess!
+            feedback.innerHTML = `
+                <div class="feedback-content correct">
+                    <p><strong>Correct! 🎉</strong></p>
+                    <p>You got it right! "${selectedWord}" means "${guess}".</p>
+                    <button onclick="loadNewWord()" class="next-button">Next Word</button>
+                </div>
+            `;
+        } else {
+            // Incorrect guess - show next sentence or try again
+            if (currentSentenceIndex < 4) {
+                // Load next sentence
+                feedback.innerHTML = `
+                    <div class="feedback-content incorrect">
+                        <p><strong>Not quite right.</strong></p>
+                        <p>Let's try with another sentence...</p>
+                    </div>
+                `;
+                
+                // Load next sentence after a short delay
+                setTimeout(() => {
+                    loadSentence(selectedWord, currentLanguage);
+                    feedback.style.display = 'none';
+                }, 2000);
+            } else {
+                // No more sentences - show answer
+                feedback.innerHTML = `
+                    <div class="feedback-content incorrect">
+                        <p><strong>Time's up!</strong></p>
+                        <p>The word "${selectedWord}" means something else.</p>
+                        <button onclick="loadNewWord()" class="next-button">Next Word</button>
+                    </div>
+                `;
+            }
+        }
         
     } catch (error) {
-        feedback.innerHTML = `<p class="error">Error scoring guess: ${error}</p>`;
+        feedback.innerHTML = `<p class="error">Error checking guess: ${error}</p>`;
     }
     
     // Clear the input
     document.getElementById('guess-input').value = '';
+}
+
+// Load a new word (reset game state)
+function loadNewWord() {
+    currentSentenceIndex = 0;
+    sentences = [];
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('game-step').style.display = 'none';
+    document.getElementById('word-step').style.display = 'block';
+    refreshWords();
 } 

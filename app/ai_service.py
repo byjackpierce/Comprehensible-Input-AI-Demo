@@ -2,8 +2,7 @@ import os
 from tempfile import tempdir
 from openai import OpenAI
 from .prompts import (
-    SCORING_SYSTEM_PROMPT, 
-    SCORING_USER_PROMPT_TEMPLATE,
+    BINARY_FEEDBACK_PROMPT,
     WORD_GENERATION_PROMPT,
     SENTENCE_GENERATION_PROMPT
 )
@@ -77,9 +76,9 @@ class AIService:
 
 
         
-    def return_score(self, word, language, guess):
+    def return_binary_feedback(self, word, language, guess):
         """
-        Score the user's guess for a foreign word.
+        Check if user's guess is correct for the target word.
         
         Args:
             word (str): The target foreign word
@@ -87,25 +86,30 @@ class AIService:
             guess (str): The user's guess
         
         Returns:
-            str: AI response with score and feedback
+            str: "correct" or "incorrect"
         """
-        user_prompt = SCORING_USER_PROMPT_TEMPLATE.format(
+        prompt = BINARY_FEEDBACK_PROMPT.format(
             language=language,
             word=word,
             guess=guess
         )
-        
+
         try:
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": SCORING_SYSTEM_PROMPT},
-                    {"role": "user", "content": user_prompt}
+                    {"role": "user", "content": prompt}
                 ],
-                max_tokens=150,
+                max_tokens=10,
+                temperature=0.1
             )
-        
-            return response.choices[0].message.content
+
+            # Safer handling of response
+            content = response.choices[0].message.content
+            if content is None:
+                return "incorrect"
+            
+            return content.strip().lower()
 
         except Exception as e:
-            return f"Error in scoring: {str(e)}"
+            return "incorrect" # return incorrect as default on error
