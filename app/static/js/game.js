@@ -152,7 +152,7 @@ async function loadSentence(word, language) {
         
         // Show guess section after a short delay (only for first sentence)
         if (sentences.length === 1) {
-            setTimeout(() => {
+        setTimeout(() => {
                 document.getElementById('guess-section').style.display = 'block';
             }, 1000);
         } else {

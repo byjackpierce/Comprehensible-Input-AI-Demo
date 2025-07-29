@@ -12,17 +12,18 @@ User's guess: '{guess}'
 
 Requirements:
 - Return ONLY "correct" or "incorrect"
-- "correct" if the guess means the same thing as the target word
-- "incorrect" if the guess is wrong or only partially right
-- Be generous with synonyms and common translations
-- For nouns, accept the English translation as correct
+- Be STRICT: only accept exact translations or very close synonyms
+- "correct" ONLY if the guess is a direct translation or very close synonym
+- "incorrect" for partial matches, related words, or approximate translations
+- For nouns, only accept the most common English translation
 
 Examples:
 - "umbrella" for "paraguas" = correct
-- "fridge" for "refrigerador" = correct  
+- "rain protection" for "paraguas" = incorrect (too vague)
 - "bike" for "bicicleta" = correct
-- "rain protection" for "paraguas" = incorrect
-- "car" for "bicicleta" = incorrect
+- "vehicle" for "bicicleta" = incorrect (too general)
+- "fridge" for "refrigerador" = correct
+- "cooling device" for "refrigerador" = incorrect (too descriptive)
 
 Return only: correct OR incorrect
 """
@@ -32,17 +33,23 @@ Return only: correct OR incorrect
 # ============================================================================
 
 WORD_GENERATION_PROMPT = """
-Generate {count} intermediate-level nouns in {language}.
+Generate {count} advanced-level nouns in {language} that are completely different from English equivalents.
 
 Requirements:
-- Choose words that are common but not super basic (avoid: Haus, Auto, Buch, Hund, Katze)
-- Focus on more interesting vocabulary like: Kühlschrank, Regenschirm, Handschuh, Fahrrad
-- Return ONLY the words, one per line, no numbers or punctuation
+- Choose words that have NO obvious English cognates or similarities
+- Focus on words that require multiple contexts to understand their meaning
+- Select words that are common in daily life but not immediately guessable
+- Return ONLY the words, one per line, no numbers, no punctuation, no dashes
 - No translations or explanations
 
-Examples of good intermediate words:
-- German: Kühlschrank, Regenschirm, Handschuh, Fahrrad, Taschenlampe
-- Spanish: paraguas, refrigerador, guante, bicicleta, linterna
+Examples of good advanced words (completely different from English):
+German: Wolldecke, Schreibtisch, Mikrowelle, Teelöffel, Büroklammer, Spiegel
+Spanish: mantel, escritorio, microondas, cucharilla, clip, espejo
+
+AVOID completely: Auto, Haus, Buch, Hund, Katze, Tisch, Stuhl - too obvious
+PREFER words that: require context clues, have no English similarity, need multiple sentences to understand
+
+FORMAT: Return only the words, one per line, no dashes, no bullets, no numbers.
 """
 
 # ============================================================================

@@ -23,7 +23,7 @@ class AIService:
         self.client = OpenAI(api_key=api_key)
     
 
-    def generate_words(self, language, count=4, temperature=1.2):
+    def generate_words(self, language, count=4, temperature=1.5, top_p=0.9):
         prompt = WORD_GENERATION_PROMPT.format(count=count, language=language)
 
         try:
@@ -33,7 +33,8 @@ class AIService:
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=100,
-                temperature=temperature
+                temperature=temperature,
+                top_p=top_p,
             )
 
             # Get the response and split it into individual words
@@ -46,7 +47,7 @@ class AIService:
         except Exception as e:
             return []
 
-    def generate_sentence_with_word(self, word, language, temperature=1.2):
+    def generate_sentence_with_word(self, word, language, temperature=1.5, top_p=0.85):
         """
         Generate an English sentence containing the target foreign word.
         
@@ -66,7 +67,8 @@ class AIService:
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens = 100,
-                temperature=temperature
+                temperature=temperature,
+                top_p=top_p
             )
         
             return response.choices[0].message.content
@@ -101,7 +103,9 @@ class AIService:
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=10,
-                temperature=0.1
+                temperature=0.05,
+                top_p=0.5
+                
             )
 
             # Safer handling of response
