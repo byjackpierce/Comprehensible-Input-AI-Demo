@@ -54,7 +54,7 @@ body {
 }
 
 .demo-step {
-    padding: 15px;
+    padding: 8px;
     border-bottom: 1px solid #eee;
     transition: all 0.3s ease;
 }
@@ -69,38 +69,68 @@ body {
     font-size: 1.3em;
 }
 
-/* Inline Header Layout */
-.inline-header {
+/* Instruction Line */
+.instruction-line {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    padding: 4px 0;
 }
 
-.inline-header h2 {
-    margin: 0;
-    white-space: nowrap;
-    font-size: 1.2em;
+.instruction-text {
+    font-size: 1em;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Loading States */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f8c8d;
+    font-style: italic;
 }
 
 /* Language Selection */
 .language-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    flex: 1;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .language-btn {
     background: #ecf0f1;
     color: #2c3e50;
     border: 2px solid #bdc3c7;
-    padding: 12px;
+    padding: 4px;
     border-radius: 6px;
-    font-size: 1.1em;
+    font-size: 1em;
     cursor: pointer;
     transition: all 0.3s;
-    min-height: 60px;
+    min-height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,23 +149,28 @@ body {
     box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
 }
 
+.language-btn.loading {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 /* Word Selection */
 .word-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    flex: 1;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
 }
 
 .word-card {
     background: #ecf0f1;
     border: 2px solid #bdc3c7;
     border-radius: 6px;
-    padding: 12px;
+    padding: 4px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s;
-    min-height: 60px;
+    min-height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -153,9 +188,14 @@ body {
     box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
 }
 
+.word-card.loading {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .word-card h3 {
     margin: 0;
-    font-size: 1.1em;
+    font-size: 1em;
     color: #2c3e50;
     font-weight: 500;
 }
@@ -164,9 +204,9 @@ body {
     background: #95a5a6;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 4px 8px;
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     cursor: pointer;
     transition: all 0.3s;
     margin-left: 10px;
@@ -178,14 +218,14 @@ body {
 
 /* Sentence Progression */
 .sentence-progression {
-    margin: 15px 0;
+    margin: 8px 0;
 }
 
 .sentence-item {
     background: #f8f9fa;
     border-left: 4px solid #3498db;
-    padding: 12px;
-    margin-bottom: 8px;
+    padding: 8px;
+    margin-bottom: 6px;
     border-radius: 4px;
     animation: slideIn 0.5s ease-out;
 }
@@ -203,7 +243,7 @@ body {
 .sentence-text {
     font-size: 1em;
     line-height: 1.4;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     color: #2c3e50;
 }
 
@@ -226,21 +266,21 @@ body {
 
 /* Guess Section */
 .guess-section {
-    margin-top: 15px;
-    padding: 15px;
+    margin-top: 8px;
+    padding: 8px;
     background: #f8f9fa;
     border-radius: 6px;
 }
 
 .guess-input-container {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
 }
 
 .guess-input {
     flex: 1;
-    padding: 10px;
+    padding: 6px;
     border: 2px solid #ddd;
     border-radius: 4px;
     font-size: 1em;
@@ -255,7 +295,7 @@ body {
     background: #27ae60;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 6px 12px;
     border-radius: 4px;
     font-size: 1em;
     cursor: pointer;
@@ -269,25 +309,25 @@ body {
 /* Completion Step */
 .completion-step {
     text-align: center;
-    padding: 20px;
+    padding: 12px;
 }
 
 .success-message h3,
 .learning-message h3 {
     color: #27ae60;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .next-demo-btn {
     background: #3498db;
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 8px 16px;
     border-radius: 6px;
     font-size: 1em;
     cursor: pointer;
     transition: all 0.3s;
-    margin-top: 15px;
+    margin-top: 8px;
 }
 
 .next-demo-btn:hover {
@@ -300,14 +340,17 @@ body {
         padding: 10px;
     }
     
-    .inline-header {
+    .instruction-line {
         flex-direction: column;
-        align-items: flex-start;
         gap: 10px;
     }
     
+    .language-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
     .word-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .guess-input-container {

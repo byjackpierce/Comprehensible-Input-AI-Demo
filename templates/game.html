@@ -17,25 +17,26 @@
 
             <!-- Progressive Demo Section -->
             <div class="demo-section">
+                <!-- Instruction Line -->
+                <div class="demo-step" id="instruction-step">
+                    <div class="instruction-line">
+                        <span class="instruction-text">Choose a language, then choose a word and guess the meaning</span>
+                        <button onclick="refreshDemo()" class="refresh-btn">🔄</button>
+                    </div>
+                </div>
+
                 <!-- Language Selection -->
                 <div class="demo-step" id="language-step">
-                    <div class="inline-header">
-                        <h2>Choose a Language:</h2>
-                        <div class="language-grid">
-                            <button onclick="selectLanguage('German')" class="language-btn" data-language="German">German</button>
-                            <button onclick="selectLanguage('Spanish')" class="language-btn" data-language="Spanish">Spanish</button>
-                            <button onclick="selectLanguage('French')" class="language-btn" data-language="French">French</button>
-                        </div>
+                    <div class="language-grid">
+                        <button onclick="selectLanguage('German')" class="language-btn" data-language="German">German</button>
+                        <button onclick="selectLanguage('Spanish')" class="language-btn" data-language="Spanish">Spanish</button>
+                        <button onclick="selectLanguage('French')" class="language-btn" data-language="French">French</button>
                     </div>
                 </div>
 
                 <!-- Word Selection (appears after language selection) -->
                 <div class="demo-step" id="word-step" style="display: none;">
-                    <div class="inline-header">
-                        <h2>Choose a Word:</h2>
-                        <div id="word-grid" class="word-grid"></div>
-                        <button onclick="refreshWords()" class="refresh-btn">🔄 New Words</button>
-                    </div>
+                    <div id="word-grid" class="word-grid"></div>
                 </div>
 
                 <!-- Sentence Progression (appears after word selection) -->
