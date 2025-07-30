@@ -9,24 +9,43 @@ Tests temperature effects on word generation (0.1-1.0).
 
 **Results**: Temperature 0.7-0.8 gives best variety for learning vocabulary.
 
-### `test_sentence_temperature.py`
-Tests temperature effects on sentence generation (1.2-1.8).
+### Historical Tests
 
-**Results**: Temperature 1.2 gives optimal balance of variety and reliability for sentence generation.
+See `tests/archive/` for historical test files that demonstrate the evolution from single-sentence generation to the current progressive sentence generation system.
 
-### `test_sentence_generation_diverse.py`
-Tests sentence generation across multiple languages and word categories.
+**Archived files:**
+- `test_sentence_generation_diverse.py` - Original single sentence generation tests
+- `test_sentence_temperature.py` - Original temperature testing for single sentences
 
-**Languages tested**: German, Spanish, French, Italian, Portuguese
-**Word categories**: Household, Weather, Clothing, Transportation, Tools
-**Words per language**: 5 common intermediate-level words
-**Tests per word**: 3 sentences per word
+**Evolution documented in:** `tests/archive/README.md`
 
-**Results**: 
-- ✅ **Good**: Weather words (umbrellas), transportation (bikes), lighting (flashlights) get clear context
-- ⚠️ **Mixed**: Household items (refrigerators) get repetitive scenarios
-- ❌ **Issues**: Inconsistent lowercase usage, some redundancy in scenarios
-- 🔧 **Prompt updated**: Enhanced lowercase enforcement in sentence generation prompt
+### `test_progressive_sentence_generation.py`
+Tests 5-sentence progressive difficulty sequences with strategic context planning.
+
+**Words tested**: 10 diverse words (German, Spanish, English)
+**Sentences per word**: 5 with progressive difficulty (subtle → obvious)
+**Languages**: German, Spanish, English (rare words)
+
+**Results**:
+- ✅ **Excellent**: Progressive difficulty maintained across all words
+- ✅ **Good**: Diverse contexts (work → home → social → nature → travel)
+- ✅ **Good**: Natural sentence quality with strategic planning
+- ✅ **Good**: No overly obvious final sentences
+- 🔧 **Implemented**: Progressive sentence generation system in main app
+
+### `test_presence_penalty_variations.py`
+Tests presence penalty effects on context diversity across 4 configurations.
+
+**Words tested**: 4 words (3 Spanish, 1 German)
+**Configurations**: Low (0.0), Medium (0.3), High (0.6), Balanced (0.2 freq + 0.3 pres)
+**Focus**: Context diversity analysis
+
+**Results**:
+- ✅ **High Presence Penalty (0.6)**: Maximum context diversity
+- ✅ **Medium Presence Penalty (0.3)**: Good balance of diversity and quality
+- ✅ **Low Presence Penalty (0.0)**: Repetitive contexts (work → work → work)
+- 🔧 **Optimized**: Implemented presence penalty 0.4 for optimal balance
+- 📊 **Analysis**: Context diversity dramatically improved with presence penalty
 
 ### `test_scoring.py`
 Tests AI scoring system for user guesses across different difficulty levels.
@@ -53,9 +72,17 @@ Tests AI scoring system for user guesses across different difficulty levels.
 
 ```bash
 python tests/test_temperature.py
-python tests/test_sentence_temperature.py
-python tests/test_sentence_generation_diverse.py
+python tests/test_progressive_sentence_generation.py
+python tests/test_presence_penalty_variations.py
 python tests/test_scoring.py
+```
+
+## Historical Tests
+
+```bash
+# These are archived and will fail (for reference only):
+python tests/archive/test_sentence_generation_diverse.py
+python tests/archive/test_sentence_temperature.py
 ```
 
 ## Notes
@@ -70,12 +97,25 @@ python tests/test_scoring.py
 - Temperature 1.4: Acceptable but some reliability issues
 - Temperature 1.6+: Avoid - produces gibberish and nonsense
 
+### Progressive Sentence Generation
+- **Presence Penalty 0.4**: Optimal for context diversity
+- **Progressive Difficulty**: Subtle → obvious maintained across all words
+- **Context Diversity**: Work → home → social → nature → travel scenarios
+- **Quality**: Natural sentences with strategic planning
+- **Implementation**: Single API call generates all 5 sentences
+
 ### Sentence Generation Quality
 - **Weather words**: Excellent context with rain/drizzle scenarios
 - **Transportation**: Good context with riding/cycling activities  
 - **Lighting tools**: Clear context with darkness/power outages
 - **Household items**: Needs more varied scenarios (cooking, meal prep)
 - **Clothing**: Inconsistent context (sports vs weather scenarios)
+
+### Presence Penalty Analysis
+- **Low (0.0)**: Repetitive contexts, poor diversity
+- **Medium (0.3)**: Good balance, natural quality
+- **High (0.6)**: Maximum diversity, slight quality trade-off
+- **Optimal (0.4)**: Best balance of diversity and quality
 
 ### Scoring System Quality
 - **Status**: **ARCHIVED** - Moved to archive/scoring-system branch

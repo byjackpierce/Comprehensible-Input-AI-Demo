@@ -4,7 +4,6 @@ from openai import OpenAI
 from .prompts import (
     BINARY_FEEDBACK_PROMPT,
     WORD_GENERATION_PROMPT,
-    SENTENCE_GENERATION_PROMPT,
     NATURAL_TRANSLATION_PROMPT,
     DETAILED_FEEDBACK_PROMPT,
     PROGRESSIVE_SENTENCE_SEQUENCE_PROMPT
@@ -50,35 +49,6 @@ class AIService:
         except Exception as e:
             return []
 
-    def generate_sentence_with_word(self, word, language, temperature=1.5, top_p=0.85):
-        """
-        Generate an English sentence containing the target foreign word.
-        
-        Args:
-            word (str): The foreign word to include in the sentence
-            language (str): The language of the word (e.g., 'German', 'Spanish')
-        
-        Returns:
-            str: An English sentence with the foreign word in context
-        """
-        prompt = SENTENCE_GENERATION_PROMPT.format(language=language, word=word)
-        
-        try:
-            response = self.client.chat.completions.create(
-                model = 'gpt-4o',
-                messages = [
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens = 100,
-                temperature=temperature,
-                top_p=top_p
-            )
-        
-            return response.choices[0].message.content
-
-        except:
-            return "error in sentence generation"
-
     def generate_progressive_sentence_sequence(self, word, language, temperature=1.2, top_p=0.9):
         """
         Generate 5 sentences with progressive difficulty (subtle → obvious).
@@ -122,22 +92,30 @@ class AIService:
             
             # Ensure we have exactly 5 sentences
             if len(sentences) < 5:
-                # Fallback: generate individual sentences to fill up
+                # Fallback: generate additional sentences using the same method
                 while len(sentences) < 5:
-                    fallback_sentence = self.generate_sentence_with_word(word, language)
-                    if fallback_sentence and fallback_sentence != "error in sentence generation":
-                        sentences.append(fallback_sentence)
+                    # Use a simpler prompt for fallback sentences
+                    fallback_prompt = f"Generate one English sentence using the {language} word '{word}' in context. Return only the sentence."
+                    try:
+                        fallback_response = self.client.chat.completions.create(
+                            model="gpt-4o",
+                            messages=[{"role": "user", "content": fallback_prompt}],
+                            max_tokens=100,
+                            temperature=1.2,
+                            top_p=0.9,
+                            presence_penalty=0.4
+                        )
+                        fallback_sentence = fallback_response.choices[0].message.content.strip()
+                        if fallback_sentence:
+                            sentences.append(fallback_sentence)
+                    except:
+                        break
             
             return sentences[:5]  # Return exactly 5 sentences
             
         except Exception as e:
-            # Fallback to individual sentence generation
-            sentences = []
-            for _ in range(5):
-                sentence = self.generate_sentence_with_word(word, language)
-                if sentence and sentence != "error in sentence generation":
-                    sentences.append(sentence)
-            return sentences
+            # Return empty list on error - let frontend handle gracefully
+            return []
 
         
     def return_binary_feedback(self, word, language, guess):

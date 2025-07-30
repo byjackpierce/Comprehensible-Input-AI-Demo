@@ -360,7 +360,7 @@ async function showEnhancedCompletion(correctGuess) {
                 language: currentLanguage,
                 final_guess: correctGuess,
                 all_guesses: allGuesses,
-                sentences: sentences
+                sentences: allSentences // Changed from 'sentences' to 'allSentences'
             })
         });
         
@@ -431,14 +431,14 @@ function showSimpleCompletion(correctGuess) {
             <div class="success-message">
                 <h3>Excellent! You got it right!</h3>
                 <p>The word <strong>"${selectedWord}"</strong> means <strong>"${correctGuess}"</strong>.</p>
-                <p>You learned this through context clues in ${sentences.length} sentence${sentences.length > 1 ? 's' : ''}!</p>
+                <p>You learned this through context clues in ${allSentences.length} sentence${allSentences.length > 1 ? 's' : ''}!</p>
             </div>
         `;
     } else {
         completionContent.innerHTML = `
             <div class="learning-message">
                 <h3>Learning Complete!</h3>
-                <p>You saw ${sentences.length} different contexts for the word <strong>"${selectedWord}"</strong>.</p>
+                <p>You saw ${allSentences.length} different contexts for the word <strong>"${selectedWord}"</strong>.</p>
                 <p>This demonstrates how multiple sentences help build understanding!</p>
             </div>
         `;
@@ -455,7 +455,7 @@ function startNewDemo() {
     currentWords = [];
     selectedWord = '';
     currentSentenceIndex = 0;
-    sentences = [];
+    allSentences = []; // Reset sentences
     allGuesses = []; // Reset guesses
     
     // Reset UI

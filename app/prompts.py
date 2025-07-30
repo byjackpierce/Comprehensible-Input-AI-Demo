@@ -102,26 +102,7 @@ PREFER words that: require context clues, have no English similarity, need multi
 FORMAT: Return only the words, one per line, no dashes, no bullets, no numbers.
 """
 
-# ============================================================================
-# SENTENCE GENERATION PROMPTS
-# ============================================================================
 
-SENTENCE_GENERATION_PROMPT = """
-Generate an English sentence that uses the {language} word '{word}' in context.
-
-Requirements:
-- Use '{word}' naturally in an English sentence
-- ALWAYS write the foreign word in lowercase, regardless of position in sentence
-- Provide clear context clues about what '{word}' means
-- Make it appropriate for language learning
-- Return only the sentence, nothing else
-- Ensure the sentence gives helpful context without being too obvious
-
-IMPORTANT: The foreign word must appear in lowercase, even if it's at the beginning of a sentence or is normally capitalized in its original language.
-
-Example format: "She opened the kofferraum and loaded her groceries."
-Example format: "kofferraum is where we store our luggage in the car."
-"""
 
 # ============================================================================
 # PROGRESSIVE SENTENCE SEQUENCE PROMPTS
