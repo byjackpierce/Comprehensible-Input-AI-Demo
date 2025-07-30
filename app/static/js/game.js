@@ -3,7 +3,7 @@ let currentLanguage = '';
 let currentWords = [];
 let selectedWord = '';
 let currentSentenceIndex = 0;
-let sentences = [];
+let allSentences = []; // Store all 5 sentences
 let allGuesses = []; // Track all user guesses
 
 // Initialize event listeners when the page loads
@@ -92,7 +92,7 @@ function displayWords(words) {
 function selectWord(word) {
     selectedWord = word;
     currentSentenceIndex = 0;
-    sentences = [];
+    allSentences = []; // Reset sentences
     allGuesses = []; // Reset guesses for new word
     
     // Add loading state to all word cards
@@ -116,17 +116,17 @@ function selectWord(word) {
         
         // Add loading text to sentence progression
         const sentenceProgression = document.getElementById('sentence-progression');
-        sentenceProgression.innerHTML = '<div class="loading-text"><span class="loading-spinner"></span>Generating sentence...</div>';
+        sentenceProgression.innerHTML = '<div class="loading-text"><span class="loading-spinner"></span>Generating sentences...</div>';
         
-        // Load first sentence
-        loadSentence(word, currentLanguage);
+        // Load all sentences at once
+        loadSentenceSequence(word, currentLanguage);
     }, 500);
 }
 
-// Load sentence from the API
-async function loadSentence(word, language) {
+// Load all sentences from the API
+async function loadSentenceSequence(word, language) {
     try {
-        const response = await fetch(`/api/generate-sentence/${language}/${word}`);
+        const response = await fetch(`/api/generate-sentence-sequence/${language}/${word}`);
         const data = await response.json();
         
         if (data.error) {
@@ -134,40 +134,41 @@ async function loadSentence(word, language) {
             return;
         }
         
-        // Remove any loading text (for both first and subsequent sentences)
+        // Store all sentences
+        allSentences = data.sentences;
+        
+        // Remove loading text
         const sentenceProgression = document.getElementById('sentence-progression');
         const loadingElements = sentenceProgression.querySelectorAll('.loading-text');
         loadingElements.forEach(element => element.remove());
         
-        // Store sentence and add to progression
-        sentences.push(data.sentence);
-        currentSentenceIndex = sentences.length - 1;
+        // Show first sentence
+        showNextSentence();
         
-        addSentenceToProgression(data.sentence, 'new');
-        
-        // Remove loading state from word cards (only for first sentence)
-        if (sentences.length === 1) {
-            document.querySelectorAll('.word-card').forEach(card => {
-                card.classList.remove('loading');
-            });
-        }
-        
-        // Show guess section after a short delay (only for first sentence)
-        if (sentences.length === 1) {
-        setTimeout(() => {
-                document.getElementById('guess-section').style.display = 'block';
-            }, 1000);
-        } else {
-            // For subsequent sentences, show guess section immediately
-            document.getElementById('guess-section').style.display = 'block';
-        }
+        // Remove loading state from word cards
+        document.querySelectorAll('.word-card').forEach(card => {
+            card.classList.remove('loading');
+        });
         
     } catch (error) {
-        addSentenceToProgression(`<p class="error">Error loading sentence: ${error}</p>`, 'error');
+        addSentenceToProgression(`<p class="error">Error loading sentences: ${error}</p>`, 'error');
         // Remove loading state on error
         document.querySelectorAll('.word-card').forEach(card => {
             card.classList.remove('loading');
         });
+    }
+}
+
+// Show the next sentence in the sequence
+function showNextSentence() {
+    if (currentSentenceIndex < allSentences.length) {
+        const sentence = allSentences[currentSentenceIndex];
+        addSentenceToProgression(sentence, 'new');
+        
+        // Show guess section after a short delay
+        setTimeout(() => {
+            document.getElementById('guess-section').style.display = 'block';
+        }, 1000);
     }
 }
 
@@ -215,7 +216,7 @@ function refreshDemo() {
     currentWords = [];
     selectedWord = '';
     currentSentenceIndex = 0;
-    sentences = [];
+    allSentences = []; // Reset sentences
     allGuesses = []; // Reset guesses
     
     // Reset UI
@@ -306,17 +307,11 @@ async function submitGuess() {
             submitBtn.disabled = false;
             submitBtn.style.opacity = '1';
             
-            if (currentSentenceIndex < 4) {
-                // Show loading state for next sentence
-                const sentenceProgression = document.getElementById('sentence-progression');
-                const loadingDiv = document.createElement('div');
-                loadingDiv.className = 'loading-text';
-                loadingDiv.innerHTML = '<span class="loading-spinner"></span>Generating sentence...';
-                sentenceProgression.appendChild(loadingDiv);
-                
-                // Load next sentence after a delay
+            if (currentSentenceIndex < allSentences.length - 1) {
+                // Show next sentence after a delay
                 setTimeout(() => {
-                    loadSentence(selectedWord, currentLanguage);
+                    currentSentenceIndex++;
+                    showNextSentence();
                 }, 2000);
             } else {
                 // No more sentences - show completion

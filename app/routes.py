@@ -30,6 +30,16 @@ def api_generate_sentence(language, word):
     except Exception as e:
         return jsonify({'error': str(e)})
 
+@main_bp.route('/api/generate-sentence-sequence/<language>/<word>')
+def api_generate_sentence_sequence(language, word):
+    """API endpoint for generating progressive sentence sequences"""
+    try:
+        ai_service = AIService()
+        sentences = ai_service.generate_progressive_sentence_sequence(word, language)
+        return jsonify({'sentences': sentences})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 @main_bp.route('/api/check-guess/<word>/<language>/<guess>')
 def api_check_guess(word, language, guess):
     """API endpoint checking the user's guess"""

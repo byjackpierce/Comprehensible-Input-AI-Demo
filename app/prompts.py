@@ -122,3 +122,36 @@ IMPORTANT: The foreign word must appear in lowercase, even if it's at the beginn
 Example format: "She opened the kofferraum and loaded her groceries."
 Example format: "kofferraum is where we store our luggage in the car."
 """
+
+# ============================================================================
+# PROGRESSIVE SENTENCE SEQUENCE PROMPTS
+# ============================================================================
+
+PROGRESSIVE_SENTENCE_SEQUENCE_PROMPT = """
+Generate 5 English sentences that use the {language} word '{word}' in context, with PROGRESSIVE DIFFICULTY.
+
+Requirements:
+- Use '{word}' naturally in each sentence
+- ALWAYS write the foreign word in lowercase
+- Create PROGRESSIVE DIFFICULTY: start subtle/hard, end obvious/easy
+- Each sentence should provide different context clues
+- Make sentences progressively more obvious about what '{word}' means
+- Return exactly 5 sentences, one per line, numbered 1-5
+
+PROGRESSIVE DIFFICULTY STRUCTURE:
+1. Sentence 1: Very subtle, minimal clues, requires deep thinking
+2. Sentence 2: Slightly more context, but still challenging
+3. Sentence 3: Moderate clues, getting clearer
+4. Sentence 4: More obvious context, easier to guess
+5. Sentence 5: Additional context, but still requires thinking (not obvious)
+
+Examples for "kofferraum" (car trunk):
+1. "The kofferraum was packed with camping gear for the weekend trip."
+2. "She loaded the groceries into the kofferraum before driving home."
+3. "The rental car's kofferraum was surprisingly spacious for all our luggage."
+4. "He stored his suitcase in the kofferraum of the car before the airport trip."
+5. "The kofferraum contained emergency supplies and a spare tire."
+
+IMPORTANT: The foreign word must appear in lowercase in all sentences.
+Return exactly 5 sentences, numbered 1-5, one per line.
+"""
