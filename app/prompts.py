@@ -29,6 +29,56 @@ Return only: correct OR incorrect
 """
 
 # ============================================================================
+# ENHANCED FEEDBACK PROMPTS
+# ============================================================================
+
+NATURAL_TRANSLATION_PROMPT = """
+Provide a natural, detailed translation for the {language} word '{word}'.
+
+Requirements:
+- Give the most common, natural English translation
+- Include additional context or explanation if helpful
+- Make it sound natural and conversational
+- Focus on the most accurate translation, not the user's guess
+- Do NOT repeat the original word in the response
+
+Examples:
+- "Schlüsselbund" → "keychain" (a ring or chain that holds keys together)
+- "Regenschirm" → "umbrella" (for protection from rain)
+- "Zahnarzt" → "dentist" (a doctor who specializes in teeth)
+- "Schlafmütze" → "sleepyhead" (a playful term for someone who is often sleepy)
+
+Return only the natural translation and brief explanation.
+"""
+
+DETAILED_FEEDBACK_PROMPT = """
+Generate detailed feedback for a language learning game.
+
+Context:
+- Language: {language}
+- Target word: '{word}'
+- User's final guess: '{final_guess}'
+- All user guesses: {all_guesses}
+- Number of sentences used: {sentence_count}
+- Sentences: {sentences}
+
+Requirements:
+- Provide encouraging feedback about their learning process
+- Comment on their guessing strategy (if they made multiple guesses)
+- Give a brief insight about the word or language learning
+- Keep it positive and educational
+- Make it conversational and engaging
+- Include 1-2 sentences maximum
+
+Examples:
+- "Great job using context clues! You narrowed it down from 'container' to 'trunk' - that's exactly how native speakers learn new words."
+- "You got it in just 2 sentences! This shows how multiple contexts help build understanding quickly."
+- "Nice persistence! You went from 'box' to 'storage' to 'trunk' - each guess got closer. That's the learning process in action!"
+
+Return only the feedback message.
+"""
+
+# ============================================================================
 # WORD GENERATION PROMPTS
 # ============================================================================
 

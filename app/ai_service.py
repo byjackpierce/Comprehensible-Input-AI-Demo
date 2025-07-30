@@ -4,7 +4,9 @@ from openai import OpenAI
 from .prompts import (
     BINARY_FEEDBACK_PROMPT,
     WORD_GENERATION_PROMPT,
-    SENTENCE_GENERATION_PROMPT
+    SENTENCE_GENERATION_PROMPT,
+    NATURAL_TRANSLATION_PROMPT,
+    DETAILED_FEEDBACK_PROMPT
 )
 
 class AIService:
@@ -76,7 +78,6 @@ class AIService:
         except:
             return "error in sentence generation"
 
-
         
     def return_binary_feedback(self, word, language, guess):
         """
@@ -117,3 +118,76 @@ class AIService:
 
         except Exception as e:
             return "incorrect" # return incorrect as default on error
+
+    def get_natural_translation(self, word, language):
+        """
+        Get a natural, detailed translation for the target word.
+        
+        Args:
+            word (str): The target foreign word
+            language (str): The language of the word
+        
+        Returns:
+            str: Natural translation with explanation
+        """
+        prompt = NATURAL_TRANSLATION_PROMPT.format(
+            language=language,
+            word=word
+        )
+
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=100,
+                temperature=0.7,
+                top_p=0.9
+            )
+
+            content = response.choices[0].message.content
+            return content.strip() if content else f"'{word}' means the target word in {language}"
+
+        except Exception as e:
+            return f"'{word}' means the target word in {language}"
+
+    def get_detailed_feedback(self, word, language, final_guess, all_guesses, sentences):
+        """
+        Generate detailed feedback for the learning session.
+        
+        Args:
+            word (str): The target foreign word
+            language (str): The language of the word
+            final_guess (str): The user's final/correct guess
+            all_guesses (list): All guesses made by the user
+            sentences (list): All sentences shown to the user
+        
+        Returns:
+            str: Detailed feedback message
+        """
+        prompt = DETAILED_FEEDBACK_PROMPT.format(
+            language=language,
+            word=word,
+            final_guess=final_guess,
+            all_guesses=", ".join(all_guesses),
+            sentence_count=len(sentences),
+            sentences=" | ".join(sentences)
+        )
+
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=150,
+                temperature=0.8,
+                top_p=0.9
+            )
+
+            content = response.choices[0].message.content
+            return content.strip() if content else "Great job learning through context!"
+
+        except Exception as e:
+            return "Great job learning through context!"

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 from app.ai_service import AIService
 
 # Create a Blueprint for our main routes
@@ -37,5 +37,34 @@ def api_check_guess(word, language, guess):
         ai_service = AIService()
         result = ai_service.return_binary_feedback(word, language, guess)
         return jsonify({'correct': result == 'correct'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@main_bp.route('/api/get-enhanced-feedback', methods=['POST'])
+def api_get_enhanced_feedback():
+    """API endpoint for getting enhanced feedback when game ends"""
+    try:
+        data = request.get_json()
+        word = data.get('word')
+        language = data.get('language')
+        final_guess = data.get('final_guess')
+        all_guesses = data.get('all_guesses', [])
+        sentences = data.get('sentences', [])
+        
+        ai_service = AIService()
+        
+        # Get natural translation
+        natural_translation = ai_service.get_natural_translation(word, language)
+        
+        # Get detailed feedback
+        detailed_feedback = ai_service.get_detailed_feedback(
+            word, language, final_guess, all_guesses, sentences
+        )
+        
+        return jsonify({
+            'natural_translation': natural_translation,
+            'detailed_feedback': detailed_feedback
+        })
+        
     except Exception as e:
         return jsonify({'error': str(e)}), 500 

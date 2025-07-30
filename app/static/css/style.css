@@ -361,3 +361,82 @@ body {
         width: 100%;
     }
 } 
+
+/* Enhanced Feedback Styles */
+.translation-section {
+    background: #f8f9fa;
+    border-left: 4px solid #28a745;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.feedback-section {
+    margin: 1rem 0;
+    font-style: italic;
+    color: #6c757d;
+}
+
+.guesses-section {
+    margin: 1.5rem 0;
+}
+
+.guesses-section h4 {
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.guesses-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.guesses-list li {
+    display: inline-block;
+    background: #e9ecef;
+    padding: 0.25rem 0.75rem;
+    margin: 0.25rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+.guesses-list li.final-guess {
+    background: #d4edda;
+    color: #155724;
+    font-weight: 600;
+}
+
+.guesses-list li.previous-guess {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.sentence-count {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-align: center;
+}
+
+/* Loading state for enhanced feedback */
+.completion-step .loading-text {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+}
+
+/* Success and learning message enhancements */
+.success-message h3,
+.learning-message h3 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.learning-message h3 {
+    color: #17a2b8;
+} 

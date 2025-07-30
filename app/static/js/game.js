@@ -4,6 +4,7 @@ let currentWords = [];
 let selectedWord = '';
 let currentSentenceIndex = 0;
 let sentences = [];
+let allGuesses = []; // Track all user guesses
 
 // Initialize event listeners when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -92,6 +93,7 @@ function selectWord(word) {
     selectedWord = word;
     currentSentenceIndex = 0;
     sentences = [];
+    allGuesses = []; // Reset guesses for new word
     
     // Add loading state to all word cards
     document.querySelectorAll('.word-card').forEach(card => {
@@ -214,6 +216,7 @@ function refreshDemo() {
     selectedWord = '';
     currentSentenceIndex = 0;
     sentences = [];
+    allGuesses = []; // Reset guesses
     
     // Reset UI
     document.getElementById('word-step').style.display = 'none';
@@ -262,6 +265,9 @@ async function submitGuess() {
     // Hide guess section temporarily
     document.getElementById('guess-section').style.display = 'none';
     
+    // Add guess to tracking array
+    allGuesses.push(guess.trim());
+    
     try {
         // Call the binary feedback API
         const response = await fetch(`/api/check-guess/${selectedWord}/${currentLanguage}/${guess}`);
@@ -286,9 +292,9 @@ async function submitGuess() {
             submitBtn.disabled = false;
             submitBtn.style.opacity = '1';
             
-            // Show completion
+            // Show completion with enhanced feedback
             setTimeout(() => {
-                showCompletion(guess);
+                showEnhancedCompletion(guess);
             }, 1000);
             
         } else {
@@ -315,7 +321,7 @@ async function submitGuess() {
             } else {
                 // No more sentences - show completion
                 setTimeout(() => {
-                    showCompletion(null);
+                    showEnhancedCompletion(null);
                 }, 2000);
             }
         }
@@ -333,8 +339,95 @@ async function submitGuess() {
     document.getElementById('guess-input').value = '';
 }
 
-// Show completion step
-function showCompletion(correctGuess) {
+// Show enhanced completion step
+async function showEnhancedCompletion(correctGuess) {
+    const completionStep = document.getElementById('completion-step');
+    const completionContent = document.getElementById('completion-content');
+    
+    // Show loading state
+    completionContent.innerHTML = `
+        <div class="loading-text">
+            <span class="loading-spinner"></span>Generating feedback...
+        </div>
+    `;
+    completionStep.style.display = 'block';
+    completionStep.scrollIntoView({ behavior: 'smooth' });
+    
+    try {
+        // Get enhanced feedback from API
+        const response = await fetch('/api/get-enhanced-feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                word: selectedWord,
+                language: currentLanguage,
+                final_guess: correctGuess,
+                all_guesses: allGuesses,
+                sentences: sentences
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+            // Fallback to simple feedback
+            showSimpleCompletion(correctGuess);
+            return;
+        }
+        
+        // Display enhanced feedback
+        if (correctGuess) {
+            completionContent.innerHTML = `
+                <div class="success-message">
+                    <h3>Excellent! You got it right!</h3>
+                    <div class="translation-section">
+                        <p><strong>"${selectedWord}"</strong> means <strong>${data.natural_translation}</strong></p>
+                    </div>
+                    <div class="feedback-section">
+                        <p>${data.detailed_feedback}</p>
+                    </div>
+                    <div class="guesses-section">
+                        <h4>Your learning journey:</h4>
+                        <ul class="guesses-list">
+                            ${allGuesses.map((guess, index) => 
+                                `<li class="${index === allGuesses.length - 1 ? 'final-guess' : 'previous-guess'}">"${guess}"</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        } else {
+            completionContent.innerHTML = `
+                <div class="learning-message">
+                    <h3>Learning Complete!</h3>
+                    <div class="translation-section">
+                        <p><strong>"${selectedWord}"</strong> means <strong>${data.natural_translation}</strong></p>
+                    </div>
+                    <div class="feedback-section">
+                        <p>${data.detailed_feedback}</p>
+                    </div>
+                    <div class="guesses-section">
+                        <h4>Your guesses:</h4>
+                        <ul class="guesses-list">
+                            ${allGuesses.map(guess => 
+                                `<li class="previous-guess">"${guess}"</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+        
+    } catch (error) {
+        // Fallback to simple feedback
+        showSimpleCompletion(correctGuess);
+    }
+}
+
+// Fallback to simple completion (if enhanced feedback fails)
+function showSimpleCompletion(correctGuess) {
     const completionStep = document.getElementById('completion-step');
     const completionContent = document.getElementById('completion-content');
     
@@ -368,6 +461,7 @@ function startNewDemo() {
     selectedWord = '';
     currentSentenceIndex = 0;
     sentences = [];
+    allGuesses = []; // Reset guesses
     
     // Reset UI
     document.getElementById('word-step').style.display = 'none';
