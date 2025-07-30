@@ -376,40 +376,32 @@ async function showEnhancedCompletion(correctGuess) {
         if (correctGuess) {
             completionContent.innerHTML = `
                 <div class="success-message">
-                    <h3>Excellent! You got it right!</h3>
                     <div class="translation-section">
                         <p><strong>"${selectedWord}"</strong> means <strong>${data.natural_translation}</strong></p>
                     </div>
+                    <div class="guesses-section">
+                        <p><strong>Your guesses:</strong> ${allGuesses.map((guess, index) => 
+                            `<span class="${index === allGuesses.length - 1 ? 'final-guess' : 'previous-guess'}">"${guess}"</span>`
+                        ).join(' ')}</p>
+                    </div>
                     <div class="feedback-section">
                         <p>${data.detailed_feedback}</p>
-                    </div>
-                    <div class="guesses-section">
-                        <h4>Your learning journey:</h4>
-                        <ul class="guesses-list">
-                            ${allGuesses.map((guess, index) => 
-                                `<li class="${index === allGuesses.length - 1 ? 'final-guess' : 'previous-guess'}">"${guess}"</li>`
-                            ).join('')}
-                        </ul>
                     </div>
                 </div>
             `;
         } else {
             completionContent.innerHTML = `
                 <div class="learning-message">
-                    <h3>Learning Complete!</h3>
                     <div class="translation-section">
                         <p><strong>"${selectedWord}"</strong> means <strong>${data.natural_translation}</strong></p>
                     </div>
+                    <div class="guesses-section">
+                        <p><strong>Your guesses:</strong> ${allGuesses.map(guess => 
+                            `<span class="previous-guess">"${guess}"</span>`
+                        ).join(' ')}</p>
+                    </div>
                     <div class="feedback-section">
                         <p>${data.detailed_feedback}</p>
-                    </div>
-                    <div class="guesses-section">
-                        <h4>Your guesses:</h4>
-                        <ul class="guesses-list">
-                            ${allGuesses.map(guess => 
-                                `<li class="previous-guess">"${guess}"</li>`
-                            ).join('')}
-                        </ul>
                     </div>
                 </div>
             `;
@@ -429,17 +421,21 @@ function showSimpleCompletion(correctGuess) {
     if (correctGuess) {
         completionContent.innerHTML = `
             <div class="success-message">
-                <h3>Excellent! You got it right!</h3>
                 <p>The word <strong>"${selectedWord}"</strong> means <strong>"${correctGuess}"</strong>.</p>
+                <p><strong>Your guesses:</strong> ${allGuesses.map((guess, index) => 
+                    `<span class="${index === allGuesses.length - 1 ? 'final-guess' : 'previous-guess'}">"${guess}"</span>`
+                ).join(' ')}</p>
                 <p>You learned this through context clues in ${allSentences.length} sentence${allSentences.length > 1 ? 's' : ''}!</p>
             </div>
         `;
     } else {
         completionContent.innerHTML = `
             <div class="learning-message">
-                <h3>Learning Complete!</h3>
+                <p>The word <strong>"${selectedWord}"</strong> means <strong>"${correctGuess || 'the target word'}"</strong>.</p>
+                <p><strong>Your guesses:</strong> ${allGuesses.map(guess => 
+                    `<span class="previous-guess">"${guess}"</span>`
+                ).join(' ')}</p>
                 <p>You saw ${allSentences.length} different contexts for the word <strong>"${selectedWord}"</strong>.</p>
-                <p>This demonstrates how multiple sentences help build understanding!</p>
             </div>
         `;
     }
