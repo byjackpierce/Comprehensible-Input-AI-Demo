@@ -51,3 +51,12 @@ Currently in development. Focus areas:
 ---
 
 **Note**: This is a learning project focused on demonstrating comprehensible input principles through interactive AI experiences.
+
+## Development Approach
+
+This project is part of my systematic approach to developing LLM development skills. I maintain a learning tracker that documents:
+- Core LLM development skills and their relative importance
+- How each skill is applied in this specific project
+- Learning outcomes and plans for deeper integration
+
+This approach helps me build skills incrementally while shipping working applications. The learning tracker is available in the `llm-learning-tracker/` directory.
