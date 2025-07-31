@@ -1,62 +1,25 @@
 # Comprehensible Input AI Demo
 
-An interactive web application that demonstrates the principles of comprehensible input in language learning through AI-powered word guessing games.
+A language learning game that teaches foreign words through progressive context clues.
 
-## About Me & Project Goals
-
-I'm learning software development (back end) and LLM integration through this project. I already have basic Python skills (mainly Jupyter notebooks and data work), I'm using this project to explore:
-- LLM development and API integration
-- Web application development with Flask
-- Modern web development practices
-
-## How It Works
-
-The demo creates an interactive experience where users:
-
-1. **Select a language** (German, Spanish, or English)
-2. **Choose from AI-generated unfamiliar words** (currently nouns)
-3. **Guess meanings** through context clues in AI-generated sentences
-4. **Receive AI feedback** and scoring until they reach 9.5/10 accuracy
-5. **Get a final summary** of their learning journey
-
-The core concept demonstrates how learners can infer word meanings from context - the fundamental principle of comprehensible input in language acquisition.
+## How it works
+1. Select a language (German, Spanish, English)
+2. Choose from AI-generated unfamiliar words
+3. Guess meanings from context sentences
+4. Get AI feedback until you understand
 
 ## Tech Stack
+- **Backend**: Flask + OpenAI API
+- **Frontend**: HTML/CSS/JavaScript
+- **AI**: GPT-4o for word/sentence generation
 
-- **Backend**: Python with Flask
-- **AI Integration**: OpenAI ChatGPT API
-- **Frontend**: HTML, CSS, JavaScript (AI-assisted development)
-- **Session Management**: Stateless, resets on page refresh
-- **API Key Management**: Environment variables (TBD)
+## Development
+This project includes a [learning tracker](./llm-learning-tracker/) that documents my systematic approach to developing LLM development skills.
 
-## Project Status
+## Setup
+```bash
+pip install -r requirements.txt
+export OPENAI_API_KEY=your_key_here
+python run.py
+```
 
-Currently in development. Focus areas:
-- [ ] Basic Flask application setup
-- [ ] OpenAI API integration
-- [ ] Word generation and selection interface
-- [ ] Sentence generation with target words
-- [ ] User input and AI scoring system
-- [ ] Modern, minimal UI design
-- [ ] Deployment setup
-
-## Setup Instructions
-
-*Coming soon as development progresses*
-
-## Usage
-
-*Coming soon as development progresses*
-
----
-
-**Note**: This is a learning project focused on demonstrating comprehensible input principles through interactive AI experiences.
-
-## Development Approach
-
-This project is part of my systematic approach to developing LLM development skills. I maintain a learning tracker that documents:
-- Core LLM development skills and their relative importance
-- How each skill is applied in this specific project
-- Learning outcomes and plans for deeper integration
-
-This approach helps me build skills incrementally while shipping working applications. The learning tracker is available in the `llm-learning-tracker/` directory.
